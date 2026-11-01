@@ -1,13 +1,14 @@
-# Movement 427 — Product Spec & Build Plan
+# Movement — Product Spec & Build Plan
 
-Status: **DRAFT, awaiting approval**
+Status: **DRAFT v2, awaiting approval**
 
 ## 1. Product summary
 
-A private, offline-capable workout tracker installed as a PWA on iPhone. Users:
+**Movement** is a private, offline-capable workout tracker installed as a PWA on iPhone. Users:
 
-- build a library of activities and combine them into a plan with a flexible cadence
-- log any activity on any day
+- build a **library** of workouts organized by **type**
+- assemble those workouts into a **plan** with a flexible cadence
+- log any planned day or any single workout on any day
 - rate their day, and their "joy to move" before and after each session
 - see patterns between how they feel and what they did
 
@@ -15,16 +16,72 @@ A private, offline-capable workout tracker installed as a PWA on iPhone. Users:
 
 | Topic | Decision |
 |---|---|
+| App name | **Movement** (home-screen label, manifest `name` and `short_name`) |
 | Platform | PWA, **iPhone only** (Safari / home-screen install) |
 | Users | 2–3 testers, fully private data, no sharing |
 | Units | Pounds and miles only |
 | Offline | Must fully work with **no signal**. Sync when signal returns |
 | Codebase | Fresh start (not a North fork) |
 | Style | `docs/style-guide.md` (Part B overrides Part A) |
+| Plan gate | **A plan is required before logging.** First launch walks the user through building one. After that, the user can log the suggested day, any other plan day, or any single workout from the library |
 | Plan builder | Deterministic code. AI suggestions are a possible later add-on |
-| Timer | Data model supports intervals from day one. Timer UI ships right after core logging (Phase 4) |
+| Where planning lives | **Settings → Planning** (Workout Library + Plan), plus the first-run setup flow |
+| Day mixing | A plan day can contain **multiple types** |
+| Targets | **Optional** per workout in a plan, shown as guidance only. Logging is never constrained by them |
+| Cadence | **One mode per plan:** weekdays **or** day numbers, never mixed |
+| Day-number shifts | **Ask each time:** show the calendar-expected day and the next-in-sequence day, and the user picks |
+| Priority | History and charts come **before** the interval timer. The timer is a nice-to-have |
 
-## 3. Tech stack
+## 3. Core concepts
+
+```
+Type      → Resistance, Cardio, Rest, Plyometrics, Flexibility, Blue Collar, + user-added
+Workout   → belongs to one Type (e.g. "Incline dumbbell fly" → Resistance)
+Plan      → a named sequence of Days, with one cadence mode
+Day       → "Day 3" or "Wednesday", optional label ("Legs"), made of Segments
+Segment   → one Type + an ordered list of Workouts from that type (+ optional targets)
+```
+
+### 3.1 Types and how they're logged
+
+Every type has a **default log format**. Each workout inherits it but can override it. For example, "Walking" under Rest can log time and distance.
+
+| Log format | Fields captured | Default for |
+|---|---|---|
+| **Sets** (weighted) | Dynamic sets: kind (warm-up / working / drop / negative), weight lb, reps, to failure | Resistance |
+| **Sets** (bodyweight) | Dynamic sets: reps, optional added load or height | Plyometrics |
+| **Time / distance / intervals** | Duration, distance mi, optional zone, optional intervals (work s, rest s, rounds) | Cardio |
+| **Time + effort** | Duration, effort 1–5, note | Blue Collar, Flexibility, Rest |
+
+- The six default types are seeded on first launch. Users can **rename, add, or archive** types. When adding a type, the user picks its default log format.
+- New users get a small, optional **starter list** of common workouts per type that they can delete. Each type also has a prominent **+ Add workout** button, because the library is meant to grow constantly.
+
+### 3.2 Building a plan (the repeating pattern)
+
+The builder follows exactly the loop you described, without assuming any particular split:
+
+1. Name the plan and choose a cadence mode: **Days of the week** or **Day numbers (Day 1…N, repeats)**.
+2. **Add a day:** pick the weekday or take the next day number, and optionally label it ("Legs", "Rest", "Norwegian 4x4").
+3. **Add a segment:** pick a **type**, and the picker shows that type's workouts. Select one or more, or add a new one inline without leaving the builder.
+4. Optionally set **targets** per workout (e.g. "2 warm-up + 1 working to failure, 8–10 reps", "60 min, zone 2", "4×4 min / 3 min rest").
+5. Optionally group resistance workouts into a **superset** or **pre-exhaustion** block. A one-tap template covers compound warm-up → isolation → same compound working.
+6. Add another segment to the same day, or add the next day. **Repeat until the user taps Done.**
+
+Days can be reordered, duplicated ("same as Day 2") and edited anytime. One plan is active at a time. Others can be saved as drafts.
+
+*Example (illustrative only):* Day 1 Cardio: cycling, 60 min zone 2 · Day 2 Resistance: front squat, split squat, single-leg DL, calf raise, tib raise · Day 3 Rest: walking, Wim Hof breathing, yoga · Day 4 Cardio: 30 min zone 3–4 · … · Day 9 Rest.
+
+### 3.3 "Next up" logic
+
+- **Weekday plans:** next up is today's weekday entry. If that weekday is empty, Today says "Nothing planned" and offers any plan day or workout.
+- **Day-number plans:** Today shows two candidates when they differ:
+  - **Next in sequence:** the day after the last plan day logged.
+  - **On schedule:** the calendar position from the plan's anchor date.
+
+  The user taps one, or picks any other day. **Re-anchor** (set "today = Day N") is one tap.
+- Off-plan logging of any single workout from the library is always available.
+
+## 4. Tech stack
 
 | Layer | Choice | Why |
 |---|---|---|
@@ -32,97 +89,94 @@ A private, offline-capable workout tracker installed as a PWA on iPhone. Users:
 | PWA | `vite-plugin-pwa` (Workbox) | Precaches the app shell and fonts. Works offline after first load |
 | Local data | IndexedDB via **Dexie** | The phone's database is the source of truth. Every write lands locally first |
 | Backend | **Supabase** (free tier): Postgres + Auth + row-level security | Per-user privacy enforced by the database, plus backup and sync |
-| Auth | **Email one-time code (6 digits)**, signups disabled, testers invited | Magic *links* open in Safari, not the installed PWA, and iOS keeps their storage separate. Typing a code inside the app avoids that trap |
-| Charts | Recharts (revisit if performance suffers) | Good enough for daily-grain data |
-| Hosting | GitHub Pages via GitHub Actions (or Netlify) | Free, deploys on push |
+| Auth | **Email one-time code (6 digits)**, signups disabled, testers invited | Magic links open in Safari, not the installed PWA, and iOS keeps their storage separate |
+| Charts | Recharts (revisit if needed) | Good enough for daily-grain data |
+| Hosting | GitHub Pages via Actions (default, pending confirmation) | Free, deploys on push |
 
 ### Offline and sync model
 
 - Every record has a client-generated UUID plus `updated_at` and `deleted_at` (soft delete).
-- Writes go to Dexie immediately, so autosave never waits on the network. A small sync queue pushes changes to Supabase when online and pulls remote changes on app open.
-- Conflicts: last write wins per row. This is acceptable because each account is one person, usually on one phone.
-- On first launch, call `navigator.storage.persist()`. iOS can evict data from non-installed sites, so onboarding insists on "Add to Home Screen". The server copy is the safety net.
+- Writes go to Dexie immediately, so autosave never waits on the network. A sync queue pushes changes to Supabase when online and pulls on app open.
+- Conflicts: last write wins per row. This is fine because each account is one person, usually on one phone.
+- On first launch, call `navigator.storage.persist()`. Onboarding insists on "Add to Home Screen". The server copy is the safety net.
 - A sync status pip (amber = pending, teal = synced) is always visible.
 
-## 4. Data model
+## 5. Data model
 
 ```
 profile            id, display_name, created_at
 
-activity           id, user_id, name, kind, cardio_modality?, notes, archived
-                   kind ∈ resistance | cardio | plyometrics | blue_collar | mobility (yoga) | other
+workout_type       id, user_id, name, default_log_format, order, archived, is_seeded
+                   default_log_format ∈ sets_weighted | sets_bodyweight | time_distance | time_effort
+workout            id, user_id, type_id, name, log_format_override?, notes, archived
+
+plan               id, user_id, name, status ∈ active | draft | archived,
+                   cadence_mode ∈ weekdays | day_number, anchor_date?   (day_number only)
+plan_day           id, plan_id, order, day_number? | weekday? (0–6), label?
+plan_segment       id, plan_day_id, type_id, order
+plan_block         id, segment_id, order, block_type ∈ straight | superset | pre_exhaust
+plan_item          id, block_id, workout_id, order, role ∈ warmup | pre_exhaust | working,
+                   target_sets?, target_reps?, target_duration_s?, target_distance_mi?,
+                   target_zone?, target_intervals? {work_s, rest_s, rounds}, target_note?
 
 daily_checkin      id, user_id, date (unique per user), sleep 1–5, mood 1–5,
-                   motivation 1–5, rest_day bool, note
+                   motivation 1–5, note                          (once per day, editable anytime)
 
-plan               id, user_id, name, active
-plan_group         id, plan_id, name ("Push A", "Long walk"), order,
-                   cadence_type ∈ every_n_days | weekdays | rotation,
-                   cadence_value (e.g. 3, or [mon,thu]), anchor_date
-plan_block         id, group_id, order, block_type ∈ straight | superset | pre_exhaust
-plan_block_item    id, block_id, activity_id, order,
-                   role ∈ warmup | pre_exhaust | working,
-                   target (guidance only: e.g. "2 warm-up, 1 to failure")
-
-session            id, user_id, date, started_at, ended_at, plan_group_id?,
-                   joy_start 1–5, joy_end 1–5, note
-session_block      id, session_id, order, block_type          (copied from plan or ad hoc)
-session_entry      id, session_block_id, activity_id, order, role
-
+session            id, user_id, date, started_at, ended_at, plan_day_id?,
+                   joy_start 1–5, joy_end 1–5, note              (many per day)
+session_block      id, session_id, order, block_type
+session_entry      id, session_block_id, workout_id, order, role
 set                id, entry_id, order, kind ∈ warmup | working | drop | negative,
-                   weight_lb, reps, to_failure bool, parent_set_id?   (drop/neg chain to a set)
-cardio_detail      id, entry_id, modality (cycling|running|sprints|norwegian_4x4|walking|…),
-                   duration_s?, distance_mi?, work_s?, rest_s?, rounds?, rpe?
-work_detail        id, entry_id, work_type (free text + suggestions), duration_s, effort 1–5
-generic_detail     id, entry_id, duration_s?, reps?, effort 1–5?   (plyo, yoga, other)
+                   weight_lb?, reps, to_failure, parent_set_id?
+timed_detail       id, entry_id, duration_s?, distance_mi?, zone?, work_s?, rest_s?, rounds?
+effort_detail      id, entry_id, duration_s?, effort 1–5, note?
 ```
 
-Key behaviors this model supports:
+Logging behaviors this supports:
 
-- **Multiple sessions per day**, each with its own joy start/end (e.g. a morning work log plus three walks). There's one daily check-in per date, editable anytime.
-- **Dynamic sets.** The plan's target is shown as guidance only. While logging, after each set the user picks **+ Warm-up · + Working · + Drop · + Negatives · Done**. Any number of each, any order.
-- **Pre-exhaustion** is a user-defined block. The common pattern (compound warm-up → isolation → same compound working) is offered as a one-tap template.
-- **"Last time"** comes from the most recent `session_entry` with the same `activity_id`. Its sets prefill as ghost values.
-- **Cadence is advisory.** "Next up" is computed from the last time each group was logged plus its cadence. Logging off-plan is always allowed. **Re-anchor from today** is one tap.
-- **Rest day** is a flag on the daily check-in. It counts toward cadence math but doesn't need a session.
+- **Multiple sessions per day**, each with its own joy start and end.
+- **Dynamic sets.** The plan target is shown as guidance. After each set the user picks **+ Warm-up · + Working · + Drop · + Negatives · Done**.
+- **"Last time":** the most recent entry for the same workout prefills as ghost values.
+- **Rest days** are simply plan days built from Rest-type workouts. They're logged like any session (e.g. a walk and yoga, each with joy start and end).
 
-## 5. Screens (v1)
+## 6. Screens (v1)
 
-1. **Today:** daily check-in strip, "next up" from the plan, sessions logged today, a big **Start session** button.
-2. **Session logger:** pick a group or go ad hoc → joy-start prompt → blocks and entries (set rows / cardio / work forms) → end → joy-end → mural-style summary.
-3. **Library:** activities by kind. Add, edit, archive.
-4. **Plan:** groups → blocks → items. Cadence editor. Re-anchor.
-5. **History:** calendar or list of sessions; per-activity progress; ratings vs. results charts (Phase 5).
-6. **Settings:** account, sync status, export JSON/CSV.
+1. **First-run setup:** welcome → install to Home Screen → review types and starter workouts → build plan → land on Today.
+2. **Today:** daily check-in strip · next-up card(s) · today's sessions · **Start session** (planned day or single workout).
+3. **Session logger:** joy start → segments and workouts (log format per workout) → end → joy end → mural-style summary.
+4. **History:** sessions by date, per-workout progress, ratings vs. results charts.
+5. **Settings:** **Planning** (Workout Library, Plan builder) · account · sync · export.
 
-Autosave happens on blur and on every discrete tap (stepper, selector). There are no Save buttons, only a "saved" pip.
+Bottom nav: **Today · Log · History · Settings**.
 
-## 6. Build phases
+Autosave happens on blur and on every discrete tap. There are no Save buttons.
+
+## 7. Build phases
 
 Each phase ends with a deploy you can install and test on your phone.
 
 | Phase | Scope | Exit test |
 |---|---|---|
-| **0. Foundation** | Scaffold, design tokens and fonts from the style guide, app shell + bottom nav, PWA manifest and icons, service worker, Dexie schema, GitHub Pages deploy | Install to home screen. Opens in airplane mode |
-| **1. Core logging (local)** | Activity library, daily check-in, sessions with all entry types, dynamic sets, joy start/end, autosave, "last time" ghosts | Log a full lift, a 4x4, and a farm session with no signal |
-| **2. Accounts + sync** | Supabase project, RLS policies, email-code login, sync queue, invite 2–3 testers, upload existing local data | Two phones, two accounts, no cross-visibility. Data survives reinstall |
-| **3. Plans + cadence** | Plan builder (straight, superset, pre-exhaust), cadence types, next-up, re-anchor, start session from plan | Build a 3-group plan. Skip a day. Re-anchor |
-| **4. Interval timer** | Norwegian 4x4, EMOM, custom work/rest/rounds. Timestamp-based (no drift), Wake Lock, audio cues, recovers after screen lock, auto-fills the cardio entry | Run a 4x4 with the phone locked mid-interval. The time logged is correct |
-| **5. History + insights** | Session history, per-activity progress (top set, volume), ratings vs. results (e.g. volume on high- vs. low-sleep days), joy trends | Spot a pattern from real tester data |
-| **6. Later** | AI plan suggestions · Apple Health / smart-scale import · daylight theme · CSV import from North | n/a |
+| **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("Movement") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "Movement". Opens in airplane mode |
+| **1. Library + Plan builder** | Types (seeded + custom), workouts per type, plan builder loop, both cadence modes, targets, superset/pre-exhaust blocks, first-run setup with plan gate | Recreate the 9-day example and a weekday-based plan from scratch, offline |
+| **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, autosave | Log a leg day, a 4x4, a rest day (walk + yoga) and farm work with no signal |
+| **3. Accounts + sync** | Supabase, RLS, email-code login, sync queue, upload local data, invite testers | Two phones, two accounts, no cross-visibility. Data survives reinstall |
+| **4. History + charts** | Session history, per-workout progress (top set, volume, duration), ratings vs. results (e.g. volume on high- vs. low-sleep days), joy start→end trends, adherence to plan | Spot a pattern from real tester data |
+| **5. Interval timer** *(nice-to-have)* | Norwegian 4x4, EMOM, custom intervals. Timestamp-based, Wake Lock, audio cues, survives screen lock, auto-fills the entry | Run a 4x4 with the phone locked mid-interval. The time logged is correct |
+| **6. Later** | AI plan suggestions · Apple Health / Wyze via Shortcuts · daylight theme · North import | n/a |
+
+Testers start real daily use after Phase 3, so their data is backed up from day one. Phases 1–2 can be tried locally before then.
 
 ### Note on Apple Health and Wyze (future)
 
-PWAs can't read HealthKit directly. There are two realistic paths:
+PWAs can't read HealthKit directly. There are two paths:
 
-1. **iOS Shortcuts automation:** a daily Shortcut reads Health samples (weight from Wyze via Health, steps, workouts) and POSTs them to a Supabase Edge Function. No app store needed. This is the recommended first step.
-2. **Native wrapper (Capacitor + HealthKit plugin):** full access, but requires App Store / TestFlight distribution.
+1. **iOS Shortcuts automation** that posts Health samples (including Wyze weight via Health) to a Supabase Edge Function. Recommended first.
+2. **Native wrapper** (Capacitor + HealthKit) via TestFlight.
 
-The schema will leave room for a `body_metric` table and an `external_source` field so either path drops in cleanly.
+The schema will leave room for a `body_metric` table and an `external_source` field.
 
-## 7. What I need from you
+## 8. Open items
 
-1. **Approve or edit this plan**, especially the phase order. Sync sits in Phase 2 so testers aren't logging weeks of unbacked-up data.
-2. **Hosting:** GitHub Pages (default) or Netlify?
-3. **Phase 2 prep:** create a free Supabase account when we get there. I'll walk you through it step by step on mobile.
-4. **App name** on the home-screen icon: "Movement 427", or something else?
+1. **Hosting:** GitHub Pages (default) or Netlify?
+2. **Phase 3 prep:** create a free Supabase account when we get there (guided on mobile).
