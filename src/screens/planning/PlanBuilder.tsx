@@ -1,4 +1,4 @@
-import { useLiveQuery } from 'dexie-react-hooks';
+import { useLiveQuery } from '../../db/useQuery';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AutoText, Empty, ScreenHead, Segmented, Sheet } from '../../components/ui';

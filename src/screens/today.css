@@ -80,3 +80,119 @@
 .today-empty h1 {
   font-size: var(--fs-h1);
 }
+
+/* ---------- Phase 2: Today ---------- */
+.today-section {
+  margin-top: var(--space-6);
+}
+
+.today-section:first-of-type {
+  margin-top: 0;
+}
+
+.section-label {
+  margin-bottom: var(--space-3);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.resume {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px var(--space-3);
+  align-items: center;
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+.resume .label {
+  color: var(--accent-ink);
+  grid-column: 1;
+}
+
+.resume-title {
+  grid-column: 1;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.resume-go {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.next-cards {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.next-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius);
+}
+
+.next-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+}
+
+.next-chip {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 0.85;
+  color: var(--accent);
+  text-transform: uppercase;
+  min-width: 56px;
+}
+
+.next-text {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.next-list {
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+.next-list b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.next-actions {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-2);
+}
+
+.mini-chip {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--accent);
+  margin-right: 4px;
+}

@@ -257,7 +257,9 @@ export interface DayNode extends PlanDay {
 export async function loadDay(dayId: string): Promise<DayNode | null> {
   const day = await db.planDays.get(dayId);
   if (!alive(day)) return null;
-  const [types, workouts] = await Promise.all([db.workoutTypes.toArray(), db.workouts.toArray()]);
+  // Sequential awaits on purpose: a native Promise.all breaks Dexie's liveQuery tracking for later reads.
+  const types = await db.workoutTypes.toArray();
+  const workouts = await db.workouts.toArray();
   const typeMap = new Map(types.map((t) => [t.id, t]));
   const wMap = new Map(workouts.map((w) => [w.id, w]));
   const segs = (await db.planSegments.where('planDayId').equals(dayId).toArray()).filter(alive).sort((a, b) => a.order - b.order);

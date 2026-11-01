@@ -1,13 +1,13 @@
-import { useLiveQuery } from 'dexie-react-hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useLiveQuery } from '../../db/useQuery';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AutoNumber, AutoText, ScreenHead, Segmented, Sheet } from '../../components/ui';
+import { WorkoutPicker } from '../../components/WorkoutPicker';
 import { useUndo } from '../../components/Undo';
 import {
   addItems,
   addPreExhaustTemplate,
   addSegment,
-  addWorkout,
   alive,
   groupItems,
   loadDay,
@@ -137,7 +137,7 @@ export function DayEditor() {
         </ul>
       </Sheet>
 
-      {picker && <WorkoutPicker typeId={picker.typeId} onDone={onPicked} onCancel={() => setPicker(null)} />}
+      {picker && <WorkoutPicker typeId={picker.typeId} multi onDone={onPicked} onCancel={() => setPicker(null)} />}
       {editItem && <ItemSheet {...editItem} onClose={() => setEditItem(null)} />}
     </div>
   );
@@ -286,73 +286,6 @@ function SegmentCard({
 
       {template && <PreExhaustSheet segment={s} onClose={() => setTemplate(false)} />}
     </section>
-  );
-}
-
-// ---------- Pick workouts from a type (multi-select, add new inline) ----------
-
-function WorkoutPicker({ typeId, onDone, onCancel }: { typeId: string; onDone: (ids: string[]) => void; onCancel: () => void }) {
-  const type = useLiveQuery(() => db.workoutTypes.get(typeId), [typeId]);
-  const workouts = useLiveQuery(
-    async () =>
-      (await db.workouts.where('typeId').equals(typeId).toArray())
-        .filter((w) => alive(w) && !w.archived)
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    [typeId],
-  );
-  const [q, setQ] = useState('');
-  const [sel, setSel] = useState<string[]>([]);
-  const query = q.trim().toLowerCase();
-  const shown = useMemo(() => (workouts ?? []).filter((w) => w.name.toLowerCase().includes(query)), [workouts, query]);
-  const exact = (workouts ?? []).some((w) => w.name.toLowerCase() === query);
-
-  async function addNew() {
-    const w = await addWorkout(typeId, q.trim());
-    setSel((s) => [...s, w.id]);
-    setQ('');
-  }
-
-  return (
-    <Sheet
-      open
-      onClose={onCancel}
-      title={type?.name ?? 'Workouts'}
-      footer={
-        <button className="btn btn-primary btn-block" disabled={!sel.length} onClick={() => onDone(sel)}>
-          {sel.length ? `Add ${sel.length} ${sel.length === 1 ? 'workout' : 'workouts'}` : 'Select workouts'}
-        </button>
-      }
-    >
-      <input
-        className="field"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder="Search or add a workout"
-        aria-label="Search or add a workout"
-        onKeyDown={(e) => e.key === 'Enter' && query && !exact && addNew()}
-      />
-      {query && !exact && (
-        <button className="row add-new" onClick={addNew}>
-          <span className="row-title">
-            + Add “{q.trim()}” to {type?.name}
-          </span>
-        </button>
-      )}
-      <ul className="rows" style={{ marginTop: 'var(--space-3)' }}>
-        {shown.map((w) => {
-          const on = sel.includes(w.id);
-          return (
-            <li key={w.id}>
-              <button className="row" role="checkbox" aria-checked={on} onClick={() => setSel((s) => (on ? s.filter((x) => x !== w.id) : [...s, w.id]))}>
-                <span className="row-title">{w.name}</span>
-                <span className={`check ${on ? 'on' : ''}`} aria-hidden />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {workouts && workouts.length === 0 && !query && <p className="muted">No workouts in this type yet — type a name above to add one.</p>}
-    </Sheet>
   );
 }
 

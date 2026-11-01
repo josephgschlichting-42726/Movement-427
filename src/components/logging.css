@@ -1,0 +1,181 @@
+/* ---------- 1–5 rating keys ---------- */
+.rating {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rating-keys {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.rating-keys button {
+  min-height: 48px;
+  background: var(--machine-black);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.375rem;
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease);
+}
+
+.rating-keys button:active {
+  transform: translateY(2px);
+}
+
+.rating-keys button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.rating-lg .rating-keys button {
+  min-height: 64px;
+  font-size: 2rem;
+}
+
+.rating-hints {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ---------- Daily check-in ---------- */
+.checkin {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.checkin-row {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+/* Vertical stacked labels, echoing the mural's "time theater" type. */
+.checkin-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* ---------- Signature numerals (style guide B7a) ---------- */
+.numerals {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 1.05em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: proportional-nums;
+  border-bottom: 1px solid var(--divider);
+}
+
+.numerals-a {
+  display: block;
+  margin-left: -0.05em;
+  color: transparent;
+  background:
+    var(--grain),
+    linear-gradient(160deg, #8d8b81 0%, #5f5e57 55%, #4b4a45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  transform: translateY(0.248em);
+}
+
+.numerals-b {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin-left: -0.13em;
+  color: var(--accent);
+  transform: translateY(0.148em);
+}
+
+/* ---------- Stepper ---------- */
+.stepper {
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius);
+  background: var(--machine-black);
+  min-width: 0;
+}
+
+.stepper button {
+  min-height: 56px;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.stepper button:active {
+  background: var(--surface);
+}
+
+.stepper-field {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  border-left: 1px solid var(--divider);
+  border-right: 1px solid var(--divider);
+  min-width: 0;
+}
+
+.stepper-field input {
+  width: 100%;
+  min-width: 0;
+  height: 56px;
+  background: none;
+  border: 0;
+  color: var(--text);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper-field input::placeholder {
+  color: var(--text-3); /* ghost value = last time */
+}
+
+.stepper-field input:focus {
+  outline: none;
+}
+
+.stepper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.stepper-unit {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--text-3);
+  padding-right: 6px;
+}

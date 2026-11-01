@@ -1,4 +1,4 @@
-import { useLiveQuery } from 'dexie-react-hooks';
+import { useLiveQuery } from '../db/useQuery';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isStandalone } from '../components/Banners';

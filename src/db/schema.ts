@@ -123,6 +123,7 @@ export interface SessionEntry extends Base {
   sessionId: string; // denormalized for fast session loads
   sessionBlockId: string;
   workoutId: string;
+  planItemId?: string | null; // the plan item it came from (for target guidance)
   date: string; // denormalized for "last time" lookups
   order: number;
   role: ItemRole;

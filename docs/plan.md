@@ -1,6 +1,6 @@
 # mōv — Product Spec & Build Plan
 
-Status: **Approved · Phase 0 ✅ · Phase 1 ✅ (v0.4.0) · next: Phase 2 (logging)**
+Status: **Approved · Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ (v0.5.0, in testing) · next: Phase 3 (accounts + sync)**
 
 ## 1. Product summary
 

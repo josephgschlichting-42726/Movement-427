@@ -12,6 +12,7 @@ import { PlanningHome } from './screens/planning/PlanningHome';
 import { Setup } from './screens/planning/Setup';
 import { TypeDetail } from './screens/planning/TypeDetail';
 import { Settings } from './screens/Settings';
+import { SessionScreen } from './screens/session/Session';
 import { Today } from './screens/Today';
 
 // Hash routing: works on GitHub Pages and offline without server rewrites.
@@ -32,6 +33,7 @@ export function App() {
               <Route path="/log" element={<Log />} />
               <Route path="/history" element={<History />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/session/:sessionId" element={<SessionScreen />} />
               <Route path="/setup" element={<Setup />} />
               <Route path="/settings/planning" element={<PlanningHome />} />
               <Route path="/settings/planning/type/:typeId" element={<TypeDetail />} />

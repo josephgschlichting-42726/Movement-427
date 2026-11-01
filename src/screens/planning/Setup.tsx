@@ -1,4 +1,4 @@
-import { useLiveQuery } from 'dexie-react-hooks';
+import { useLiveQuery } from '../../db/useQuery';
 import { useNavigate } from 'react-router-dom';
 import { isStandalone } from '../../components/Banners';
 import { IconShare } from '../../components/Icons';
