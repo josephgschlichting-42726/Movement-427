@@ -4,6 +4,7 @@ import { InstallBanner, UpdateBanner } from './components/Banners';
 import { BottomNav } from './components/BottomNav';
 import { Splash } from './components/Splash';
 import { UndoProvider } from './components/Undo';
+import { Account } from './screens/Account';
 import { History } from './screens/History';
 import { Log } from './screens/Log';
 import { DayEditor } from './screens/planning/DayEditor';
@@ -35,6 +36,7 @@ export function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/session/:sessionId" element={<SessionScreen />} />
               <Route path="/setup" element={<Setup />} />
+              <Route path="/settings/account" element={<Account />} />
               <Route path="/settings/planning" element={<PlanningHome />} />
               <Route path="/settings/planning/type/:typeId" element={<TypeDetail />} />
               <Route path="/settings/planning/plan/:planId" element={<PlanBuilder />} />

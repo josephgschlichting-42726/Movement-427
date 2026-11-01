@@ -455,3 +455,31 @@ button.row:active {
   padding: var(--space-4) 0 var(--space-1);
   color: var(--text-3);
 }
+
+.err-msg {
+  color: var(--status-error);
+  font-size: var(--fs-small);
+}
+
+.code-input {
+  font-size: 1.75rem;
+  letter-spacing: 0.3em;
+  min-height: 64px;
+}
+
+.pip.err::before {
+  background: var(--status-error);
+}
+
+.nav-pip {
+  position: absolute;
+  top: 10px;
+  right: calc(50% - 20px);
+  width: 8px;
+  height: 8px;
+  background: var(--status-warn);
+}
+
+.nav-pip.err {
+  background: var(--status-error);
+}

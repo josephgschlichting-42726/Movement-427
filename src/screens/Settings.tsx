@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom';
 import { isStandalone } from '../components/Banners';
 import { IconChevron } from '../components/Icons';
 import { Wordmark } from '../components/Wordmark';
+import { syncConfigured } from '../config';
+import { useSyncStatus } from '../sync/sync';
+import { syncPipClass } from './Account';
 import { db } from '../db/schema';
 import './settings.css';
 
 export function Settings() {
+  const sync = useSyncStatus();
   const typeCount = useLiveQuery(() => db.workoutTypes.filter((t) => !t.deletedAt && !t.archived).count(), []);
   const [persisted, setPersisted] = useState<boolean | null>(null);
   useEffect(() => {
@@ -43,9 +47,21 @@ export function Settings() {
           <span className="row-title">Storage protected</span>
           <span className={`pip ${persisted ? '' : 'warn'} label`}>{persisted === null ? '…' : persisted ? 'Yes' : 'No'}</span>
         </li>
-        <li className="row">
-          <span className="row-title">Account &amp; sync</span>
-          <span className="label">Phase 3</span>
+      </ul>
+
+      <p className="label settings-group">Account</p>
+      <ul className="rows">
+        <li>
+          <Link to="/settings/account" className="row">
+            <span>
+              <span className="row-title">Backup &amp; sync</span>
+              <span className="row-sub">{sync.email ?? (syncConfigured() ? 'Not signed in' : 'Not set up yet')}</span>
+            </span>
+            <span className="row-right">
+              {sync.state !== 'off' && <span className={`pip ${syncPipClass(sync.state)}`} aria-hidden />}
+              <IconChevron />
+            </span>
+          </Link>
         </li>
       </ul>
 
