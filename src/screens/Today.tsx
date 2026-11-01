@@ -38,7 +38,7 @@ export function Today() {
           <p className="label">Get started</p>
           <h1>Build your plan</h1>
           <p className="muted">
-            Movement starts with a plan: pick a type, choose its workouts, assign it to a day — repeat until it fits
+            mōv starts with a plan: pick a type, choose its workouts, assign it to a day — repeat until it fits
             your week. Logging unlocks once your plan exists.
           </p>
           <Link to="/settings/planning" className="btn btn-primary btn-block">

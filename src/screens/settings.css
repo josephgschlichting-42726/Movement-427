@@ -48,6 +48,20 @@ a.row svg {
 }
 
 .settings-version {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
   margin-top: var(--space-7);
-  color: var(--text-3);
+}
+
+.settings-wm {
+  font-size: 3.5rem;
+}
+
+.diag {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  white-space: pre-wrap;
 }

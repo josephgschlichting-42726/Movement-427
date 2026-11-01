@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isStandalone } from '../components/Banners';
 import { IconChevron } from '../components/Icons';
+import { Wordmark } from '../components/Wordmark';
 import { db } from '../db/schema';
 import './settings.css';
 
@@ -48,7 +49,39 @@ export function Settings() {
         </li>
       </ul>
 
-      <p className="settings-version label">Movement v{__APP_VERSION__}</p>
+      <DisplayDiagnostics />
+
+      <div className="settings-version">
+        <Wordmark className="settings-wm" />
+        <span className="label">v{__APP_VERSION__}</span>
+      </div>
     </div>
+  );
+}
+
+/** Temporary: screen/viewport measurements to diagnose iOS layout (bottom-bar gap). */
+function DisplayDiagnostics() {
+  const [info, setInfo] = useState<string>('');
+  useEffect(() => {
+    const probe = document.createElement('div');
+    probe.style.cssText =
+      'position:fixed;visibility:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0';
+    document.body.appendChild(probe);
+    const cs = getComputedStyle(probe);
+    const rows = [
+      `screen ${screen.width}×${screen.height}`,
+      `inner ${window.innerWidth}×${window.innerHeight}`,
+      `client ${document.documentElement.clientHeight}`,
+      `visual ${Math.round(window.visualViewport?.height ?? 0)}`,
+      `safe top ${cs.paddingTop} · bottom ${cs.paddingBottom}`,
+    ];
+    probe.remove();
+    setInfo(rows.join('\n'));
+  }, []);
+  return (
+    <>
+      <p className="label settings-group">Display diagnostics</p>
+      <pre className="diag">{info}</pre>
+    </>
   );
 }

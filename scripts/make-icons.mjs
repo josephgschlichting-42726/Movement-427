@@ -4,13 +4,13 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 // Uses the Playwright that ships with the environment (or a local install).
 const { chromium } = require('playwright');
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const font = readFileSync(`${root}node_modules/@fontsource/oswald/files/oswald-latin-700-normal.woff2`).toString('base64');
 
-// Mark: an oversized, cropped "M" in brushed concrete with a signal-orange bar — after the "25" mural.
+// Mark: a brushed-concrete "ō" (block macron) overlapped by a signal-orange "v" — the mōv wordmark, after the "25" mural.
 const svg = (size, pad) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
   <defs>
@@ -23,11 +23,31 @@ const svg = (size, pad) => `
   </defs>
   <rect width="512" height="512" fill="#101110"/>
   <g transform="translate(${pad} ${pad}) scale(${(512 - 2 * pad) / 512})">
-    <text x="-30" y="560" font-family="O" font-weight="700" font-size="620" fill="url(#c)">M</text>
-    <text x="-30" y="560" font-family="O" font-weight="700" font-size="620" fill="#fff" filter="url(#n)">M</text>
-    <rect x="300" y="300" width="212" height="70" fill="#F05A24"/>
+    <text x="-6" y="472" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
+    <text x="-6" y="472" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
+    <rect x="6" y="84" width="236" height="46" fill="url(#c)"/>
+    <text x="226" y="506" font-family="O" font-weight="700" font-size="560" fill="#F05A24">v</text>
   </g>
 </svg>`;
+
+// [device px width, height, css width, css height, ratio] — portrait.
+export const STARTUP_DEVICES = [
+  [1320, 2868, 440, 956, 3],
+  [1290, 2796, 430, 932, 3],
+  [1260, 2736, 420, 912, 3],
+  [1206, 2622, 402, 874, 3],
+  [1179, 2556, 393, 852, 3],
+  [1284, 2778, 428, 926, 3],
+  [1170, 2532, 390, 844, 3],
+  [1125, 2436, 375, 812, 3],
+  [1242, 2688, 414, 896, 3],
+  [828, 1792, 414, 896, 2],
+  [1080, 2340, 360, 780, 3],
+  [750, 1334, 375, 667, 2],
+  [1242, 2208, 414, 736, 3],
+];
+const STARTUP = STARTUP_DEVICES.map(([w, h]) => [w, h]);
+mkdirSync(`${root}public/splash`, { recursive: true });
 
 const out = [
   ['public/icon-192.png', 192, 0],
@@ -46,6 +66,15 @@ for (const [file, size, pad] of out) {
   writeFileSync(`${root}${file}`, await page.screenshot({ type: 'png' }));
   console.log('wrote', file);
 }
+
+// iOS launch images: plain Machine Black so launch goes black → animated splash, never white.
+for (const [w, h] of STARTUP) {
+  await page.setViewportSize({ width: 100, height: 100 });
+  await page.setContent(`<html><body style="margin:0;background:#101110;width:${w}px;height:${h}px"></body></html>`);
+  await page.setViewportSize({ width: w, height: h });
+  writeFileSync(`${root}public/splash/launch-${w}x${h}.png`, await page.screenshot({ type: 'png' }));
+}
+console.log('wrote', STARTUP.length, 'launch images');
 await browser.close();
 
 writeFileSync(

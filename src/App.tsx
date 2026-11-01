@@ -1,6 +1,7 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { InstallBanner, UpdateBanner } from './components/Banners';
 import { BottomNav } from './components/BottomNav';
+import { Splash } from './components/Splash';
 import { History } from './screens/History';
 import { Log } from './screens/Log';
 import { Planning } from './screens/Planning';
@@ -11,6 +12,7 @@ import { Today } from './screens/Today';
 export function App() {
   return (
     <HashRouter>
+      <Splash />
       <div className="app">
         <UpdateBanner />
         <InstallBanner />

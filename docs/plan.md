@@ -1,10 +1,10 @@
-# Movement — Product Spec & Build Plan
+# mōv — Product Spec & Build Plan
 
 Status: **DRAFT v2, awaiting approval**
 
 ## 1. Product summary
 
-**Movement** is a private, offline-capable workout tracker installed as a PWA on iPhone. Users:
+**mōv** (pronounced "move") is a private, offline-capable workout tracker installed as a PWA on iPhone. Users:
 
 - build a **library** of workouts organized by **type**
 - assemble those workouts into a **plan** with a flexible cadence
@@ -16,7 +16,8 @@ Status: **DRAFT v2, awaiting approval**
 
 | Topic | Decision |
 |---|---|
-| App name | **Movement** (home-screen label, manifest `name` and `short_name`) |
+| App name | **mōv** — "move", with a macron for the long vowel (home-screen label, manifest `name` and `short_name`). Wordmark: concrete "m" + "ō", signal-orange "v" (see style guide B7) |
+| Launch | Animated splash: wordmark builds in (~0.8s), holds, fades; tap to skip; static under Reduce Motion |
 | Platform | PWA, **iPhone only** (Safari / home-screen install) |
 | Users | 2–3 testers, fully private data, no sharing |
 | Units | Pounds and miles only |
@@ -180,7 +181,7 @@ Each phase ends with a deploy you can install and test on your phone.
 
 | Phase | Scope | Exit test |
 |---|---|---|
-| **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("Movement") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "Movement". Opens in airplane mode |
+| **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("mōv") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "mōv". Opens in airplane mode |
 | **1. Library + Plan builder** | Types (seeded + custom), workouts per type, plan builder loop, both cadence modes, targets, superset/pre-exhaust blocks, first-run setup with plan gate | Recreate the 9-day example and a weekday-based plan from scratch, offline |
 | **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, skip workout / skip day (with reasons), undo bar, back-navigation, reopen and edit any past session, un-skip / un-done, soft delete, autosave | Log a leg day with tib raises skipped then un-skipped, skip a day then undo it, reopen yesterday's session and fix a weight, a 4x4, a rest day (walk + yoga) and farm work with no signal |
 | **3. Accounts + sync** | Supabase, RLS, email-code login, sync queue, upload local data, invite testers | Two phones, two accounts, no cross-visibility. Data survives reinstall |

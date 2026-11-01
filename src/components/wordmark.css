@@ -1,0 +1,151 @@
+.wm {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  /* Room above for the macron, below for the lowered "v". */
+  padding: 0.12em 0 0.06em;
+}
+
+.wm-l {
+  position: relative;
+  display: inline-block;
+}
+
+/* Concrete letters — same treatment as the Today "0". */
+.wm-m,
+.wm-o {
+  color: transparent;
+  background:
+    var(--grain),
+    linear-gradient(160deg, #8d8b81 0%, #5f5e57 55%, #4b4a45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Orange "v" overlaps the "ō" and sits slightly low, like the mural's "5". */
+.wm-v {
+  z-index: 1;
+  margin-left: -0.06em;
+  color: var(--accent);
+  transform: translateY(0.05em);
+}
+
+/* Macron: concrete block, matching its "o". */
+.wm-macron {
+  position: absolute;
+  left: 0.04em;
+  right: 0.04em;
+  top: 0.2em;
+  height: 0.085em;
+  background: linear-gradient(160deg, #8d8b81 0%, #6a6961 100%);
+  transform-origin: left center;
+}
+
+/* ---------- Splash animation (modest: rise, overlap, macron wipe) ---------- */
+.wm-animate .wm-l {
+  opacity: 0;
+  animation: wm-rise 420ms var(--ease) forwards;
+}
+
+.wm-animate .wm-o {
+  animation-delay: 110ms;
+}
+
+.wm-animate .wm-v {
+  animation-name: wm-rise-low;
+  animation-delay: 220ms;
+}
+
+.wm-animate .wm-macron {
+  transform: scaleX(0);
+  animation: wm-wipe 260ms var(--ease) 560ms forwards;
+}
+
+@keyframes wm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.18em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wm-rise-low {
+  from {
+    opacity: 0;
+    transform: translateY(0.24em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0.05em);
+  }
+}
+
+@keyframes wm-wipe {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wm-animate .wm-l,
+  .wm-animate .wm-macron {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .wm-animate .wm-v {
+    transform: translateY(0.05em);
+  }
+}
+
+/* ---------- Splash overlay ---------- */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  background:
+    var(--grain),
+    radial-gradient(120% 80% at 50% 45%, #1c1d1b 0%, var(--machine-black) 70%);
+  transition: opacity 280ms var(--ease);
+}
+
+.splash-leave {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-wm {
+  font-size: clamp(7rem, 46vw, 14rem);
+}
+
+.splash-tag {
+  opacity: 0;
+  animation: wm-fade 300ms var(--ease) 700ms forwards;
+}
+
+@keyframes wm-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-tag {
+    animation: none;
+    opacity: 1;
+  }
+  .splash {
+    transition: none;
+  }
+}

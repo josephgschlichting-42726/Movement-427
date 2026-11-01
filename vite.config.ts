@@ -16,8 +16,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
       manifest: {
-        name: 'Movement',
-        short_name: 'Movement',
+        name: 'mōv',
+        short_name: 'mōv',
         description: 'Plan, log, and understand how you move.',
         lang: 'en-US',
         display: 'standalone',
