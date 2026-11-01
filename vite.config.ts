@@ -37,6 +37,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,woff2,png,svg}'],
+        // Diagnostic pages for the iOS icon issue — keep them out of the app's offline cache.
+        globIgnores: ['icon-test/**'],
         navigateFallback: 'index.html',
         // Never answer a file request (icons, manifest, images) with the app's HTML shell —
         // iOS fetches the home-screen icon itself and needs the real image back.
