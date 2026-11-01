@@ -1,0 +1,69 @@
+.today-hero {
+  position: relative;
+  height: calc(var(--fs-display) * 0.92);
+  margin: calc(var(--space-5) * -1) calc(var(--space-4) * -1) var(--space-5);
+  overflow: hidden;
+  border-bottom: 1px solid var(--divider);
+  background:
+    var(--grain),
+    linear-gradient(180deg, #1a1b19 0%, var(--machine-black) 100%);
+}
+
+.today-digit {
+  position: absolute;
+  bottom: -0.16em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* First digit: brushed concrete, cropped at the left edge. */
+.today-digit-a {
+  left: -0.08em;
+  color: transparent;
+  background:
+    var(--grain),
+    linear-gradient(160deg, #8d8b81 0%, #5f5e57 55%, #4b4a45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Second digit: signal orange, overlapping and set lower, like the mural's "5". */
+.today-digit-b {
+  left: 0.36em;
+  bottom: -0.3em;
+  color: var(--accent);
+  mix-blend-mode: normal;
+}
+
+/* Vertical stacked tag, echoing the mural's "time theater" type. */
+.today-tag {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-4);
+  display: flex;
+  gap: 2px;
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.today-tag span:first-child {
+  background: var(--industrial-teal);
+  color: var(--machine-black);
+  padding: var(--space-2) 2px;
+  font-weight: 500;
+}
+
+.today-tag span:last-child {
+  padding: var(--space-2) 2px;
+}
+
+.today-empty h1 {
+  font-size: var(--fs-h1);
+}

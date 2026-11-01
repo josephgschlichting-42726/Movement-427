@@ -1,0 +1,71 @@
+/* Design tokens — see docs/style-guide.md (Part B overrides Part A). */
+:root {
+  /* Palette */
+  --signal-orange: #f05a24;
+  --hot-orange: #ff6b35;
+  --machine-black: #101110;
+  --graphite: #222321;
+  --dark-steel: #383936;
+  --brushed-metal: #77766d;
+  --warm-silver: #b9b6aa;
+  --bone-white: #f0eee6;
+  --industrial-teal: #79a6a4;
+  --amber: #e0b341;
+
+  /* Semantic roles */
+  --bg: var(--machine-black);
+  --surface: var(--graphite);
+  --divider: var(--dark-steel); /* decorative hairlines only (1.4–1.6:1) */
+  --border-ui: var(--brushed-metal); /* input/control boundaries (≥3:1) */
+  --text: var(--bone-white);
+  --text-2: var(--warm-silver);
+  --text-3: var(--brushed-metal); /* ≥18pt or icons only */
+  --accent: var(--signal-orange);
+  --accent-ink: var(--machine-black); /* text on orange — white fails contrast */
+  --status-success: var(--industrial-teal);
+  --status-warn: var(--amber);
+  --status-error: #e8484a; /* never color-only: always icon + label */
+  --focus-ring: var(--hot-orange);
+
+  /* Type */
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --fs-label: 0.75rem;
+  --fs-small: 0.875rem;
+  --fs-body: 1rem; /* inputs never below 16px (iOS zoom) */
+  --fs-h2: 1.5rem;
+  --fs-h1: clamp(2rem, 9vw, 2.75rem);
+  --fs-display: clamp(9rem, 52vw, 15rem);
+
+  /* Shape & space */
+  --radius: 2px;
+  --tap: 48px;
+  --tap-primary: 56px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Motion */
+  --dur: 140ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Safe areas */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --nav-h: 64px;
+
+  /* Texture: one static noise tile, hero/summary surfaces only */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+  }
+}
