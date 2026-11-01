@@ -47,14 +47,18 @@ export const STARTUP_DEVICES = [
   [750, 1334, 375, 667, 2],
   [1242, 2208, 414, 736, 3],
 ];
+const ICON_VERSION = 'v3';
+mkdirSync(`${root}public/icons`, { recursive: true });
 const STARTUP = STARTUP_DEVICES.map(([w, h]) => [w, h]);
 mkdirSync(`${root}public/splash`, { recursive: true });
 
 const out = [
-  ['public/icon-192.png', 192, 0],
-  ['public/icon-512.png', 512, 0],
-  ['public/apple-touch-icon.png', 180, 0],
-  ['public/icon-maskable-512.png', 512, 56],
+  // Versioned file names: iOS caches home-screen icons hard, so a new icon gets a new name.
+  // Bump ICON_VERSION (here, index.html and vite.config.ts) whenever the artwork changes.
+  [`public/icons/mov-${ICON_VERSION}-192.png`, 192, 0],
+  [`public/icons/mov-${ICON_VERSION}-512.png`, 512, 0],
+  [`public/icons/mov-${ICON_VERSION}-180.png`, 180, 0],
+  [`public/icons/mov-${ICON_VERSION}-maskable-512.png`, 512, 56],
 ];
 
 const browser = await chromium.launch();

@@ -14,7 +14,7 @@ export default defineConfig({
     VitePWA({
       // 'prompt' so a new version never reloads the page mid-set; the user taps "Reload".
       registerType: 'prompt',
-      includeAssets: ['apple-touch-icon.png', 'favicon.svg'],
+      includeAssets: ['icons/*.png', 'favicon.svg'],
       manifest: {
         name: 'mōv',
         short_name: 'mōv',
@@ -26,10 +26,13 @@ export default defineConfig({
         scope: '.',
         background_color: '#101110',
         theme_color: '#101110',
+        // iOS 26 "Open as Web App" takes its home-screen icon from here, not from
+        // <link rel="apple-touch-icon">. Keep entries plain: explicit purpose, no query strings.
         icons: [
-          { src: 'icon-192.png?v=3', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png?v=3', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-maskable-512.png?v=3', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'icons/mov-v3-180.png', sizes: '180x180', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v3-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v3-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v3-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {

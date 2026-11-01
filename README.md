@@ -12,7 +12,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # typecheck + production build (dist/)
 npm run preview    # serve the production build
-npm run icons      # re-render app icons (needs Playwright/Chromium)
+npm run icons      # re-render app icons into public/icons (bump ICON_VERSION when artwork changes)
 ```
 
 ## Stack
