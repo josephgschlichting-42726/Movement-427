@@ -74,6 +74,7 @@ function DisplayDiagnostics() {
       `client ${document.documentElement.clientHeight}`,
       `visual ${Math.round(window.visualViewport?.height ?? 0)}`,
       `safe top ${cs.paddingTop} · bottom ${cs.paddingBottom}`,
+      `bottom fix ${getComputedStyle(document.documentElement).getPropertyValue('--vh-gap').trim() || '0px'}`,
     ];
     probe.remove();
     setInfo(rows.join('\n'));

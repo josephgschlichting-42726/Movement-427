@@ -12,9 +12,11 @@ import './styles/global.css';
 import './styles/components.css';
 import { App } from './App';
 import { db, requestPersistentStorage } from './db/schema';
+import { installViewportFix } from './lib/viewportFix';
 
 db.open().catch((err) => console.error('Failed to open local database', err));
 requestPersistentStorage();
+installViewportFix();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

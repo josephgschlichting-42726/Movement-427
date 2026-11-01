@@ -297,7 +297,7 @@ button.row:active {
 /* ---------- Sheet ---------- */
 .sheet-scrim {
   position: fixed;
-  inset: 0;
+  inset: 0 0 calc(-1 * var(--vh-gap)) 0;
   z-index: 50;
   display: flex;
   align-items: flex-end;
@@ -392,7 +392,7 @@ button.row:active {
   position: fixed;
   left: var(--space-4);
   right: var(--space-4);
-  bottom: calc(var(--nav-h) + var(--safe-bottom) + var(--space-3));
+  bottom: calc(var(--nav-h) + var(--safe-bottom) + var(--space-3) - var(--vh-gap));
   z-index: 60;
   display: flex;
   align-items: center;

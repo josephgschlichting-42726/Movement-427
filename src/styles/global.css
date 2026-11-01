@@ -181,7 +181,7 @@ textarea {
 /* ---------- Bottom nav ---------- */
 .nav {
   position: fixed;
-  inset: auto 0 0 0;
+  inset: auto 0 calc(-1 * var(--vh-gap)) 0;
   z-index: 10;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
