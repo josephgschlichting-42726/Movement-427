@@ -1,6 +1,6 @@
 # mōv — Product Spec & Build Plan
 
-Status: **DRAFT v2, awaiting approval**
+Status: **Approved · Phase 0 ✅ · Phase 1 ✅ (v0.4.0) · next: Phase 2 (logging)**
 
 ## 1. Product summary
 

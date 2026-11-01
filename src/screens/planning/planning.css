@@ -1,0 +1,278 @@
+.hint {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+.add-inline {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.add-inline .btn {
+  min-height: var(--tap);
+  flex-shrink: 0;
+}
+
+.add-new {
+  border-bottom: 1px solid var(--divider);
+  color: var(--accent);
+}
+
+/* ---------- Plan: days ---------- */
+.days {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--divider);
+}
+
+.day-card {
+  border-bottom: 1px solid var(--divider);
+}
+
+.day-main {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4) 0 var(--space-2);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.day-main:active {
+  background: var(--surface);
+}
+
+/* Day chip: the stacked-numeral motif in miniature. */
+.day-chip {
+  min-width: 52px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 0.9;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.day-chip.week {
+  font-size: 1.375rem;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.day-text {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.day-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.day-label {
+  color: var(--text-2);
+}
+
+.day-seg {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.day-seg b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.day-count {
+  padding-top: 6px;
+}
+
+.day-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding-bottom: var(--space-2);
+}
+
+.plan-footer {
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--divider);
+}
+
+/* ---------- Day editor: segments ---------- */
+.seg-card {
+  margin-top: var(--space-6);
+  border-top: 2px solid var(--bone-white);
+}
+
+.seg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+}
+
+.blocks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.block {
+  position: relative;
+  border-top: 1px solid var(--divider);
+}
+
+.block.grouped {
+  margin: var(--space-2) 0;
+  padding-left: var(--space-3);
+  border-top: 0;
+  border-left: 3px solid var(--dark-steel);
+}
+
+.block.grouped:has(.tag-accent) {
+  border-left-color: var(--accent);
+}
+
+.block.grouped:has(.tag-teal) {
+  border-left-color: var(--industrial-teal);
+}
+
+.block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-2);
+}
+
+.block-move {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.item-check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 56px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.sel-n {
+  position: absolute;
+  top: 6px;
+  right: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--accent);
+}
+
+.item-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  min-height: 60px;
+  padding: var(--space-3) 0;
+  background: none;
+  border: 0;
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.item-main:active {
+  background: var(--surface);
+}
+
+.item-name {
+  font-weight: 500;
+}
+
+.item-role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.item-sub {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+.item-sub.muted {
+  color: var(--text-3);
+}
+
+.seg-actions {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--divider);
+}
+
+.select-bar {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--divider);
+}
+
+/* ---------- First-run setup ---------- */
+.setup-mark {
+  margin: 0 calc(var(--space-4) * -1) var(--space-6);
+  padding: var(--space-6) var(--space-4) 0;
+  background: var(--grain), radial-gradient(120% 90% at 30% 60%, #1c1d1b 0%, var(--machine-black) 70%);
+}
+
+.setup-wm {
+  font-size: clamp(5rem, 30vw, 8rem);
+}
+
+.setup h1 {
+  font-size: clamp(1.75rem, 8vw, 2.25rem);
+}
+
+.setup-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: var(--space-2);
+  color: var(--text-2);
+}
+
+.setup-steps b {
+  color: var(--text);
+  font-weight: 600;
+}

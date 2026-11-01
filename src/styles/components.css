@@ -1,0 +1,452 @@
+/* Shared components — style guide §5 + Part B (2px radius, ≥48pt targets, 16px+ inputs). */
+
+/* ---------- Screen head ---------- */
+.screen-head-main {
+  min-width: 0;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  margin: -8px 0 4px -2px;
+  padding: 0 2px;
+  background: none;
+  border: 0;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ---------- Rows / lists ---------- */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--divider);
+}
+
+.rows > li {
+  border-bottom: 1px solid var(--divider);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: var(--space-3) 0;
+  text-decoration: none;
+  color: var(--text);
+  width: 100%;
+  background: none;
+  border: 0;
+  text-align: left;
+  font: inherit;
+}
+
+a.row:active,
+button.row:active {
+  background: var(--surface);
+}
+
+.row-text {
+  min-width: 0;
+}
+
+.row-title {
+  display: block;
+}
+
+.row-sub {
+  display: block;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+
+.row-right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  color: var(--text-2);
+}
+
+.chev {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-3);
+}
+
+.group-label {
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.group-label:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Fields ---------- */
+.field {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 var(--space-3);
+  background: var(--machine-black);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.field::placeholder {
+  color: var(--text-3);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.field-num {
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.field-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--border-ui);
+  padding: 0;
+}
+
+.field-row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field-row > label {
+  display: grid;
+  gap: 6px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+/* ---------- Segmented control ---------- */
+.seg {
+  display: flex;
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.seg button {
+  flex: 1;
+  min-height: var(--tap);
+  padding: 0 var(--space-2);
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--border-ui);
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.seg button:first-child {
+  border-left: 0;
+}
+
+.seg button.on {
+  background: var(--bone-white);
+  color: var(--machine-black);
+  font-weight: 500;
+}
+
+.seg button:disabled {
+  opacity: 0.4;
+}
+
+/* ---------- Chips ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  min-height: 40px;
+  min-width: 48px;
+  padding: 0 var(--space-3);
+  background: transparent;
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.chip.on {
+  background: var(--bone-white);
+  border-color: var(--bone-white);
+  color: var(--machine-black);
+}
+
+.chip:disabled {
+  opacity: 0.35;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid var(--border-ui);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.tag-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tag-teal {
+  border-color: var(--industrial-teal);
+  color: var(--industrial-teal);
+}
+
+/* ---------- Buttons (additions) ---------- */
+.btn-ghost {
+  background: transparent;
+  border: 1px dashed var(--border-ui);
+  color: var(--text);
+}
+
+.btn-sm {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  font-size: 0.9375rem;
+}
+
+.link-btn {
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  background: none;
+  border: 0;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.link-btn.danger {
+  color: var(--status-error);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  background: none;
+  border: 0;
+  color: var(--text-2);
+  font-size: 1.125rem;
+  cursor: pointer;
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Sheet ---------- */
+.sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.6);
+  animation: fade-in 160ms var(--ease);
+}
+
+.sheet {
+  width: 100%;
+  max-width: 560px;
+  max-height: 88vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--graphite);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding-bottom: var(--safe-bottom);
+  animation: sheet-up 200ms var(--ease);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+
+.sheet-done {
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  background: none;
+  border: 0;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.sheet-body {
+  overflow-y: auto;
+  padding: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet-foot {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--divider);
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet-scrim {
+    animation: none;
+  }
+}
+
+/* ---------- Empty state ---------- */
+.empty {
+  padding: var(--space-6) 0;
+}
+
+.empty-big {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5rem;
+  line-height: 0.9;
+  color: var(--dark-steel);
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Undo bar ---------- */
+.undo {
+  position: fixed;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: calc(var(--nav-h) + var(--safe-bottom) + var(--space-3));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-width: 528px;
+  margin: 0 auto;
+  min-height: 52px;
+  padding: 0 var(--space-2) 0 var(--space-4);
+  background: var(--bone-white);
+  color: var(--machine-black);
+  border-radius: var(--radius);
+  animation: sheet-up 160ms var(--ease);
+}
+
+.undo button {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  background: none;
+  border: 0;
+  /* Orange on bone fails contrast (2.9:1) — black text with an orange underline instead. */
+  color: var(--machine-black);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--signal-orange);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* ---------- Radio / check marks ---------- */
+.radio,
+.check {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--border-ui);
+  flex-shrink: 0;
+}
+
+.radio {
+  border-radius: 50%;
+}
+
+.radio.on {
+  border-color: var(--accent);
+  background: radial-gradient(circle, var(--accent) 0 5px, transparent 6px);
+}
+
+.check.on {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--graphite);
+}

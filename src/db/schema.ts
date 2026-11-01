@@ -8,6 +8,7 @@
  * - soft delete via deletedAt — nothing is ever hard-deleted from the UI
  */
 import Dexie, { type EntityTable } from 'dexie';
+import { seedStarterWorkouts, seedTypes } from './seed';
 
 export type LogFormat = 'sets_weighted' | 'sets_bodyweight' | 'time_distance' | 'time_effort';
 export type CadenceMode = 'weekdays' | 'day_number';
@@ -38,6 +39,7 @@ export interface Workout extends Base {
   logFormatOverride?: LogFormat | null;
   notes?: string;
   archived: boolean;
+  isStarter?: boolean;
 }
 
 export interface Plan extends Base {
@@ -189,33 +191,19 @@ export class MovementDB extends Dexie {
       effortDetails: 'id, entryId, updatedAt',
     });
 
-    this.on('populate', (tx) => {
-      const now = Date.now();
-      tx.table('workoutTypes').bulkAdd(
-        SEEDED_TYPES.map(([name, defaultLogFormat], order) => ({
-          id: crypto.randomUUID(),
-          name,
-          defaultLogFormat,
-          order,
-          archived: false,
-          isSeeded: true,
-          createdAt: now,
-          updatedAt: now,
-          deletedAt: null,
-        })),
-      );
+    // v2: starter workout library (also backfills devices installed on v1).
+    this.version(2)
+      .stores({ workouts: 'id, typeId, name, updatedAt' })
+      .upgrade((tx) => seedStarterWorkouts(tx));
+
+    this.on('populate', async (tx) => {
+      await seedTypes(tx);
+      await seedStarterWorkouts(tx);
     });
   }
 }
 
-export const SEEDED_TYPES: ReadonlyArray<readonly [string, LogFormat]> = [
-  ['Resistance', 'sets_weighted'],
-  ['Cardio', 'time_distance'],
-  ['Plyometrics', 'sets_bodyweight'],
-  ['Flexibility', 'time_effort'],
-  ['Rest', 'time_effort'],
-  ['Blue Collar', 'time_effort'],
-];
+export { SEEDED_TYPES } from './seed';
 
 export const db = new MovementDB();
 
