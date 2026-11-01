@@ -25,10 +25,15 @@
   background-clip: text;
 }
 
+/* Tight m–ō: letters nearly touch, like the stacked numerals. */
+.wm-o {
+  margin-left: -0.05em;
+}
+
 /* Orange "v" overlaps the "ō" and sits slightly low, like the mural's "5". */
 .wm-v {
   z-index: 1;
-  margin-left: -0.06em;
+  margin-left: -0.17em;
   color: var(--accent);
   transform: translateY(0.05em);
 }

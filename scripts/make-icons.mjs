@@ -23,9 +23,9 @@ const svg = (size, pad) => `
   </defs>
   <rect width="512" height="512" fill="#101110"/>
   <g transform="translate(${pad} ${pad}) scale(${(512 - 2 * pad) / 512})">
-    <text x="-6" y="472" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
-    <text x="-6" y="472" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
-    <rect x="6" y="84" width="236" height="46" fill="url(#c)"/>
+    <text x="34" y="472" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
+    <text x="34" y="472" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
+    <rect x="46" y="84" width="236" height="46" fill="url(#c)"/>
     <text x="226" y="506" font-family="O" font-weight="700" font-size="560" fill="#F05A24">v</text>
   </g>
 </svg>`;
