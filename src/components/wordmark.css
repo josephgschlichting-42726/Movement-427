@@ -1,12 +1,26 @@
+/*
+ * mōv wordmark — treated like the Today date numerals:
+ * letters stand on a "floor" (the crop edge) and step down left→right,
+ * so the orange "v" sinks below the edge and is cropped, like the "1".
+ * Oswald metrics at line-height 1: baseline ≈ 0.952em from the line top; x-height ≈ 0.6em.
+ */
 .wm {
+  --wm-pad-top: 0.1em;
+  position: relative;
   display: inline-flex;
   align-items: baseline;
+  overflow: hidden;
+  /* Crop edge sits exactly on the baseline: "m" stands on the floor. */
+  height: calc(var(--wm-pad-top) + 0.952em);
+  padding-top: var(--wm-pad-top);
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
-  /* Room above for the macron, below for the lowered "v". */
-  padding: 0.12em 0 0.06em;
+}
+
+.wm-floor {
+  border-bottom: 1px solid var(--divider);
 }
 
 .wm-l {
@@ -25,87 +39,91 @@
   background-clip: text;
 }
 
-/* Tight m–ō: letters nearly touch, like the stacked numerals. */
+/* Step 1: tight to the "m", dipping just below the floor. */
 .wm-o {
   margin-left: -0.05em;
+  transform: translateY(0.07em);
 }
 
-/* Orange "v" overlaps the "ō" and sits slightly low, like the mural's "5". */
+/* Step 2: orange "v" overlaps the "ō" and sinks furthest — cropped like the "1". */
 .wm-v {
   z-index: 1;
   margin-left: -0.17em;
   color: var(--accent);
-  transform: translateY(0.05em);
+  transform: translateY(0.2em);
 }
 
-/* Macron: concrete block, matching its "o". */
+/* Macron: concrete block, tight above the "o" (x-height top ≈ 0.352em). */
 .wm-macron {
   position: absolute;
   left: 0.04em;
   right: 0.04em;
-  top: 0.2em;
+  top: 0.235em;
   height: 0.085em;
   background: linear-gradient(160deg, #8d8b81 0%, #6a6961 100%);
   transform-origin: left center;
 }
 
-/* ---------- Splash animation (modest: rise, overlap, macron wipe) ---------- */
-.wm-animate .wm-l {
-  opacity: 0;
-  animation: wm-rise 420ms var(--ease) forwards;
+/* ---------- Splash animation: letters rise up through the floor, left to right ---------- */
+.wm-animate .wm-m {
+  animation: wm-rise-m 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .wm-animate .wm-o {
-  animation-delay: 110ms;
+  animation: wm-rise-o 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 90ms both;
 }
 
 .wm-animate .wm-v {
-  animation-name: wm-rise-low;
-  animation-delay: 220ms;
+  /* The v overshoots slightly before settling — the one bit of momentum. */
+  animation: wm-rise-v 640ms cubic-bezier(0.25, 1.35, 0.45, 1) 180ms both;
 }
 
 .wm-animate .wm-macron {
-  transform: scaleX(0);
-  animation: wm-wipe 260ms var(--ease) 560ms forwards;
+  animation: wm-wipe 240ms var(--ease) 620ms both;
 }
 
-@keyframes wm-rise {
+@keyframes wm-rise-m {
   from {
-    opacity: 0;
-    transform: translateY(0.18em);
+    transform: translate(-0.12em, 1em);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0);
   }
 }
 
-@keyframes wm-rise-low {
+@keyframes wm-rise-o {
   from {
-    opacity: 0;
-    transform: translateY(0.24em);
+    transform: translate(-0.12em, 1.07em);
   }
   to {
-    opacity: 1;
-    transform: translateY(0.05em);
+    transform: translate(0, 0.07em);
+  }
+}
+
+@keyframes wm-rise-v {
+  from {
+    transform: translate(-0.12em, 1.2em);
+  }
+  to {
+    transform: translate(0, 0.2em);
   }
 }
 
 @keyframes wm-wipe {
+  from {
+    transform: scaleX(0);
+  }
   to {
     transform: scaleX(1);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wm-animate .wm-l,
+  .wm-animate .wm-m,
+  .wm-animate .wm-o,
+  .wm-animate .wm-v,
   .wm-animate .wm-macron {
     animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  .wm-animate .wm-v {
-    transform: translateY(0.05em);
   }
 }
 
@@ -136,7 +154,7 @@
 
 .splash-tag {
   opacity: 0;
-  animation: wm-fade 300ms var(--ease) 700ms forwards;
+  animation: wm-fade 300ms var(--ease) 760ms forwards;
 }
 
 @keyframes wm-fade {

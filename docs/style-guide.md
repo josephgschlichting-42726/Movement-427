@@ -181,10 +181,11 @@ Series are also told apart by line style or markers and direct labels, not color
 ### B7a. Wordmark — mōv
 
 * Spelled **mōv** (lowercase; the macron marks the long "o", pronounced "move").
-* Oswald 700, treated like the Today date numerals: **"m" and "ō" in brushed concrete** (gradient + grain), **"v" in Signal Orange**, overlapping the "ō" and set slightly low — the mural's "2"/"5" relationship.
-* The macron is a **drawn block bar** in concrete (not a typed glyph), sitting just above the x-height.
-* Component: `src/components/Wordmark.tsx`. App icon: concrete "ō" overlapped by an orange "v", cropped at the bottom edge.
-* **Splash:** letters rise in sequence (m → ō → v, ~110ms stagger), the macron wipes in left-to-right, tagline fades in, then the splash fades out at ~1.35s. Tap to skip; Reduce Motion shows it static. iOS launch images are plain Machine Black so there is no white flash.
+* Oswald 700, treated like the Today date numerals: **"m" and "ō" in brushed concrete**, **"v" in Signal Orange**.
+* **Floor and crop:** the letters stand on a floor line (the crop edge) and step down left→right. The "m" sits on the floor, the "ō" dips just below it, and the orange "v" overlaps the "ō" and sinks furthest, so it's cropped like the Today "1". The step-down carries the sense of forward motion.
+* **Spacing:** m–ō tight (nearly touching); the macron is a drawn concrete block sitting tight above the "o".
+* Component: `src/components/Wordmark.tsx` (`floor` prop draws the hairline). App icon: concrete "ō" and orange "v", both cropped by the bottom edge, with the "v" lower.
+* **Splash:** letters rise up through the floor in sequence (m → ō → v, ~90ms stagger, sliding slightly forward). The "v" overshoots a touch before settling, the macron wipes in, the tagline fades in, then the splash fades out at ~1.35s. Tap to skip; Reduce Motion shows it static. iOS launch images are plain Machine Black.
 
 ### B8. Components (v1)
 
