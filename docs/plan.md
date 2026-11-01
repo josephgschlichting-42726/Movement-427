@@ -81,6 +81,16 @@ Days can be reordered, duplicated ("same as Day 2") and edited anytime. One plan
   The user taps one, or picks any other day. **Re-anchor** (set "today = Day N") is one tap.
 - Off-plan logging of any single workout from the library is always available.
 
+### 3.4 Skipping
+
+Plans bend to real life (sore foot, travel, a bad night's sleep). Skipping is always one tap and never blocks anything.
+
+- **Skip a workout within a day:** on any workout in a session, tap **Skip**. An optional reason chip appears (Sore / Injury · Equipment · Time · Energy · Other + note). The workout is greyed out and the rest of the day continues. Example: skip tib raises because of a sore foot.
+- **Skip a whole day:** on the next-up card, tap **Skip day** (with the same optional reason). For day-number plans, "next in sequence" moves on to the following day. For weekday plans, it just marks that day as skipped.
+- **Undo:** a skip can be undone anytime from the session or from History.
+- **Not a plan edit:** skipping only affects that one occurrence. The plan is unchanged. A separate **Remove from plan** (in Settings → Planning) is for permanent changes.
+- **Skipped ≠ missing:** a skip is recorded deliberately, so History and adherence charts show *done*, *skipped (with reason)* and *missed (nothing logged)* differently. "Last time" ghost values ignore skipped entries and use the last time the workout was actually done.
+
 ## 4. Tech stack
 
 | Layer | Choice | Why |
@@ -123,9 +133,11 @@ daily_checkin      id, user_id, date (unique per user), sleep 1–5, mood 1–5,
                    motivation 1–5, note                          (once per day, editable anytime)
 
 session            id, user_id, date, started_at, ended_at, plan_day_id?,
-                   joy_start 1–5, joy_end 1–5, note              (many per day)
+                   status ∈ in_progress | done | skipped, skip_reason?, skip_note?,
+                   joy_start 1–5, joy_end 1–5, note              (many per day; a skipped day = a session with status skipped)
 session_block      id, session_id, order, block_type
-session_entry      id, session_block_id, workout_id, order, role
+session_entry      id, session_block_id, workout_id, order, role,
+                   status ∈ pending | done | skipped, skip_reason?, skip_note?
 set                id, entry_id, order, kind ∈ warmup | working | drop | negative,
                    weight_lb?, reps, to_failure, parent_set_id?
 timed_detail       id, entry_id, duration_s?, distance_mi?, zone?, work_s?, rest_s?, rounds?
@@ -159,9 +171,9 @@ Each phase ends with a deploy you can install and test on your phone.
 |---|---|---|
 | **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("Movement") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "Movement". Opens in airplane mode |
 | **1. Library + Plan builder** | Types (seeded + custom), workouts per type, plan builder loop, both cadence modes, targets, superset/pre-exhaust blocks, first-run setup with plan gate | Recreate the 9-day example and a weekday-based plan from scratch, offline |
-| **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, autosave | Log a leg day, a 4x4, a rest day (walk + yoga) and farm work with no signal |
+| **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, skip workout / skip day (with reasons, undo), autosave | Log a leg day with tib raises skipped, skip a whole day, a 4x4, a rest day (walk + yoga) and farm work with no signal |
 | **3. Accounts + sync** | Supabase, RLS, email-code login, sync queue, upload local data, invite testers | Two phones, two accounts, no cross-visibility. Data survives reinstall |
-| **4. History + charts** | Session history, per-workout progress (top set, volume, duration), ratings vs. results (e.g. volume on high- vs. low-sleep days), joy start→end trends, adherence to plan | Spot a pattern from real tester data |
+| **4. History + charts** | Session history, per-workout progress (top set, volume, duration), ratings vs. results (e.g. volume on high- vs. low-sleep days), joy start→end trends, adherence to plan (done / skipped by reason / missed) | Spot a pattern from real tester data |
 | **5. Interval timer** *(nice-to-have)* | Norwegian 4x4, EMOM, custom intervals. Timestamp-based, Wake Lock, audio cues, survives screen lock, auto-fills the entry | Run a 4x4 with the phone locked mid-interval. The time logged is correct |
 | **6. Later** | AI plan suggestions · Apple Health / Wyze via Shortcuts · daylight theme · North import | n/a |
 
