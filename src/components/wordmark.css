@@ -1,16 +1,17 @@
 /*
- * mōv wordmark — treated like the Today date numerals:
- * letters stand on a "floor" (the crop edge) and step down left→right,
- * so the orange "v" sinks below the edge and is cropped, like the "1".
- * Oswald metrics at line-height 1: baseline ≈ 0.952em from the line top; x-height ≈ 0.6em.
+ * mōv wordmark — approved version (docs/reference/wordmark-approved.jpg).
+ * Same logic as the Today numerals: gray sinks, orange rises.
+ * - m stands just into the floor, ō sinks a little further (but its counter stays closed),
+ * - the orange v overlaps the ō and is lifted off the floor so it clears the macron
+ *   and is the highest, brightest point.
+ * The crop edge is the baseline (Oswald at line-height 1: baseline ≈ 0.952em from the top).
  */
 .wm {
-  --wm-pad-top: 0.1em;
+  --wm-pad-top: 0.12em;
   position: relative;
   display: inline-flex;
   align-items: baseline;
   overflow: hidden;
-  /* Crop edge sits exactly on the baseline: "m" stands on the floor. */
   height: calc(var(--wm-pad-top) + 0.952em);
   padding-top: var(--wm-pad-top);
   font-family: var(--font-display);
@@ -28,7 +29,7 @@
   display: inline-block;
 }
 
-/* Concrete letters — same treatment as the Today "0". */
+/* Concrete letters — same treatment as the gray date numeral. */
 .wm-m,
 .wm-o {
   color: transparent;
@@ -39,21 +40,30 @@
   background-clip: text;
 }
 
-/* Step 1: tight to the "m", dipping just below the floor. */
-.wm-o {
-  margin-left: -0.05em;
-  transform: translateY(0.07em);
+.wm-m {
+  transform: translateY(var(--wm-m));
 }
 
-/* Step 2: orange "v" overlaps the "ō" and sinks furthest — cropped like the "1". */
+.wm-o {
+  margin-left: -0.05em;
+  transform: translateY(var(--wm-o));
+}
+
 .wm-v {
   z-index: 1;
   margin-left: -0.17em;
   color: var(--accent);
-  transform: translateY(0.2em);
+  transform: translateY(var(--wm-v));
 }
 
-/* Macron: concrete block, tight above the "o" (x-height top ≈ 0.352em). */
+/* Resting positions (how far each letter sits below the floor; negative = lifted). */
+.wm {
+  --wm-m: 0.05em;
+  --wm-o: 0.085em;
+  --wm-v: -0.1em;
+}
+
+/* Macron: concrete block, tight above the "o". */
 .wm-macron {
   position: absolute;
   left: 0.04em;
@@ -64,58 +74,42 @@
   transform-origin: left center;
 }
 
-/* ---------- Splash animation: letters rise up through the floor, left to right ---------- */
+/* ---------- Splash intro (~1.5s): letters rise through the floor, v springs to its lifted spot ---------- */
 .wm-animate .wm-m {
-  animation: wm-rise-m 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: wm-rise-m 760ms cubic-bezier(0.22, 0.8, 0.24, 1) 120ms both;
 }
 
 .wm-animate .wm-o {
-  animation: wm-rise-o 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 90ms both;
+  animation: wm-rise-o 760ms cubic-bezier(0.22, 0.8, 0.24, 1) 280ms both;
 }
 
 .wm-animate .wm-v {
-  /* The v overshoots slightly before settling — the one bit of momentum. */
-  animation: wm-rise-v 640ms cubic-bezier(0.25, 1.35, 0.45, 1) 180ms both;
+  /* A touch of overshoot so the lift reads as a spring, not a slide. */
+  animation: wm-rise-v 900ms cubic-bezier(0.3, 1.3, 0.45, 1) 440ms both;
 }
 
 .wm-animate .wm-macron {
-  animation: wm-wipe 240ms var(--ease) 620ms both;
+  animation: wm-wipe 420ms cubic-bezier(0.4, 0, 0.2, 1) 1000ms both;
 }
 
 @keyframes wm-rise-m {
-  from {
-    transform: translate(-0.12em, 1em);
-  }
-  to {
-    transform: translate(0, 0);
-  }
+  from { transform: translate(-0.08em, 1.05em); }
+  to { transform: translate(0, var(--wm-m)); }
 }
 
 @keyframes wm-rise-o {
-  from {
-    transform: translate(-0.12em, 1.07em);
-  }
-  to {
-    transform: translate(0, 0.07em);
-  }
+  from { transform: translate(-0.08em, 1.1em); }
+  to { transform: translate(0, var(--wm-o)); }
 }
 
 @keyframes wm-rise-v {
-  from {
-    transform: translate(-0.12em, 1.2em);
-  }
-  to {
-    transform: translate(0, 0.2em);
-  }
+  from { transform: translate(-0.08em, 1.15em); }
+  to { transform: translate(0, var(--wm-v)); }
 }
 
 @keyframes wm-wipe {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -140,9 +134,11 @@
   background:
     var(--grain),
     radial-gradient(120% 80% at 50% 45%, #1c1d1b 0%, var(--machine-black) 70%);
-  transition: opacity 280ms var(--ease);
+  opacity: 1;
+  transition: opacity var(--splash-fade) cubic-bezier(0.45, 0, 0.25, 1);
 }
 
+/* Cross-fade: the splash fades out while the home screen fades in underneath. */
 .splash-leave {
   opacity: 0;
   pointer-events: none;
@@ -154,21 +150,33 @@
 
 .splash-tag {
   opacity: 0;
-  animation: wm-fade 300ms var(--ease) 760ms forwards;
+  animation: wm-fade 520ms cubic-bezier(0.4, 0, 0.2, 1) 1200ms forwards;
 }
 
 @keyframes wm-fade {
-  to {
-    opacity: 1;
-  }
+  to { opacity: 1; }
+}
+
+:root {
+  --splash-fade: 950ms;
+}
+
+/* The app shell starts hidden and fades in on the same curve as the splash fades out. */
+.app-pre {
+  opacity: 0;
+}
+
+.app-in {
+  opacity: 1;
+  transition: opacity var(--splash-fade) cubic-bezier(0.45, 0, 0.25, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --splash-fade: 400ms;
+  }
   .splash-tag {
     animation: none;
     opacity: 1;
-  }
-  .splash {
-    transition: none;
   }
 }

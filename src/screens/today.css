@@ -1,6 +1,6 @@
 .today-hero {
   position: relative;
-  height: calc(var(--fs-display) * 0.92);
+  height: calc(var(--fs-display) * 1.2);
   margin: calc(var(--space-5) * -1) calc(var(--space-4) * -1) var(--space-5);
   overflow: hidden;
   border-bottom: 1px solid var(--divider);
@@ -9,33 +9,46 @@
     linear-gradient(180deg, #1a1b19 0%, var(--machine-black) 100%);
 }
 
-.today-digit {
+/*
+ * Approved date numerals (docs/reference/numerals-approved.jpg):
+ * digits sit side by side so the orange always overlaps the gray by the same amount,
+ * whatever the digit widths. The hero's bottom edge is the floor.
+ * Oswald at line-height 1: the baseline is 0.048em above the line-box bottom.
+ * Gray sinks 0.2em below the floor; orange sinks 0.1em, so it stands taller.
+ */
+.today-num {
   position: absolute;
-  bottom: -0.16em;
+  left: -0.05em;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fs-display);
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: proportional-nums;
 }
 
-/* First digit: brushed concrete, cropped at the left edge. */
+.today-digit {
+  display: block;
+  position: relative;
+}
+
 .today-digit-a {
-  left: -0.08em;
   color: transparent;
   background:
     var(--grain),
     linear-gradient(160deg, #8d8b81 0%, #5f5e57 55%, #4b4a45 100%);
   -webkit-background-clip: text;
   background-clip: text;
+  transform: translateY(0.248em);
 }
 
-/* Second digit: signal orange, overlapping and set lower, like the mural's "5". */
 .today-digit-b {
-  left: 0.36em;
-  bottom: -0.3em;
+  z-index: 1;
+  margin-left: -0.13em;
   color: var(--accent);
-  mix-blend-mode: normal;
+  transform: translateY(0.148em);
 }
 
 /* Vertical stacked tag, echoing the mural's "time theater" type. */

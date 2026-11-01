@@ -3,24 +3,31 @@ import { Wordmark } from './Wordmark';
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** Timeline (ms). Intro ≈ 1.5s, a calm hold, then a ~0.95s cross-fade into the home screen. */
+const HOLD_UNTIL = 2300;
+const HOLD_UNTIL_REDUCED = 800;
+const FADE = 950;
+const FADE_REDUCED = 400;
+
 /**
- * Launch splash: the wordmark builds in (~0.8s), holds briefly, then fades away.
- * Tap anywhere to skip. Shown once per cold launch.
+ * Launch splash. The wordmark builds in, holds, then cross-fades with the home screen:
+ * `onLeave` fires as the fade starts so the app fades in on the same curve — midway
+ * through, both are half-visible. Tap anywhere to skip straight to the cross-fade.
  */
-export function Splash() {
+export function Splash({ onLeave }: { onLeave: () => void }) {
   const [phase, setPhase] = useState<'show' | 'leave' | 'gone'>('show');
 
   useEffect(() => {
-    const hold = reduced() ? 500 : 1350;
-    const t1 = setTimeout(() => setPhase('leave'), hold);
-    return () => clearTimeout(t1);
+    const t = setTimeout(() => setPhase('leave'), reduced() ? HOLD_UNTIL_REDUCED : HOLD_UNTIL);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
     if (phase !== 'leave') return;
-    const t2 = setTimeout(() => setPhase('gone'), reduced() ? 0 : 280);
-    return () => clearTimeout(t2);
-  }, [phase]);
+    onLeave();
+    const t = setTimeout(() => setPhase('gone'), reduced() ? FADE_REDUCED : FADE);
+    return () => clearTimeout(t);
+  }, [phase, onLeave]);
 
   if (phase === 'gone') return null;
   return (

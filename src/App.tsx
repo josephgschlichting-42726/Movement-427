@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { InstallBanner, UpdateBanner } from './components/Banners';
 import { BottomNav } from './components/BottomNav';
@@ -10,10 +11,13 @@ import { Today } from './screens/Today';
 
 // Hash routing: works on GitHub Pages and offline without server rewrites.
 export function App() {
+  // The app shell fades in as the splash fades out (a true cross-fade).
+  const [revealed, setRevealed] = useState(false);
+  const reveal = useCallback(() => setRevealed(true), []);
   return (
     <HashRouter>
-      <Splash />
-      <div className="app">
+      <Splash onLeave={reveal} />
+      <div className={`app ${revealed ? 'app-in' : 'app-pre'}`}>
         <UpdateBanner />
         <InstallBanner />
         <main>

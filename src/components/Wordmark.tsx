@@ -2,9 +2,9 @@ import './wordmark.css';
 
 /**
  * The mōv wordmark, styled like the Today date numerals (after the "25" mural):
- * brushed-concrete "m" and "ō" (macron drawn as a solid block) and a signal-orange "v".
- * Letters stand on a floor line and step down left→right; the "v" sinks below it and is
- * cropped, like the Today "1". On the splash they rise up through the floor.
+ * brushed-concrete "m" and "ō" sink into a floor line; the signal-orange "v" overlaps the "ō"
+ * and is lifted clear of the macron — gray sinks, orange rises, like the Today numerals.
+ * On the splash the letters rise up through the floor.
  * The macron is drawn, not typed: Oswald's latin subset has no "ō", and a block bar reads better.
  */
 export function Wordmark({

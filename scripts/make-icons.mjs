@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const font = readFileSync(`${root}node_modules/@fontsource/oswald/files/oswald-latin-700-normal.woff2`).toString('base64');
 
-// Mark: a brushed-concrete "ō" (block macron) overlapped by a signal-orange "v" — the mōv wordmark, after the "25" mural.
+// Mark: a brushed-concrete "ō" sinking into the edge, a signal-orange "v" lifted above it — the mōv wordmark, after the "25" mural.
 const svg = (size, pad) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
   <defs>
@@ -23,10 +23,11 @@ const svg = (size, pad) => `
   </defs>
   <rect width="512" height="512" fill="#101110"/>
   <g transform="translate(${pad} ${pad}) scale(${(512 - 2 * pad) / 512})">
-    <text x="34" y="532" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
-    <text x="34" y="532" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
-    <rect x="46" y="150" width="236" height="44" fill="url(#c)"/>
-    <text x="226" y="604" font-family="O" font-weight="700" font-size="560" fill="#F05A24">v</text>
+    <!-- ō sinks into the bottom edge (counter stays closed); v is lifted clear of the macron. -->
+    <text x="34" y="560" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
+    <text x="34" y="560" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
+    <rect x="46" y="158" width="236" height="48" fill="url(#c)"/>
+    <text x="226" y="456" font-family="O" font-weight="700" font-size="560" fill="#F05A24">v</text>
   </g>
 </svg>`;
 
@@ -77,9 +78,9 @@ for (const [w, h] of STARTUP) {
 console.log('wrote', STARTUP.length, 'launch images');
 await browser.close();
 
-// Favicon: same mark, simplified to flat shapes — concrete "ō" bar + bowl, orange "v", cropped at the bottom.
+// Favicon: the same mark as flat shapes — concrete ō sinking into the edge, orange v lifted.
 writeFileSync(
   `${root}public/favicon.svg`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#101110"/><rect x="3" y="7" width="14" height="3" fill="#8d8b81"/><path d="M10 12c-4.4 0-7 2.6-7 7.5V32h14V19.5C17 14.6 14.4 12 10 12zm0 4c1.3 0 2 .9 2 2.6V32H8V18.6c0-1.7.7-2.6 2-2.6z" fill="#77766D" fill-rule="evenodd"/><path d="M14 17h5l2.5 11 2.5-11h5l-4.5 15h-6z" fill="#F05A24"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#101110"/><rect x="3" y="10" width="13" height="3" fill="#8d8b81"/><path d="M9.5 14.5c-4.2 0-6.5 2.6-6.5 7V32h13V21.5c0-4.4-2.3-7-6.5-7zm0 3.6c1.2 0 1.8.9 1.8 2.5V32H7.7V20.6c0-1.6.6-2.5 1.8-2.5z" fill="#77766D" fill-rule="evenodd"/><path d="M14 6h5l2.6 11.5L24.2 6h5l-4.7 17h-5.8z" fill="#F05A24"/></svg>`,
 );
 console.log('wrote public/favicon.svg');

@@ -16,8 +16,8 @@ Status: **DRAFT v2, awaiting approval**
 
 | Topic | Decision |
 |---|---|
-| App name | **mōv** — "move", with a macron for the long vowel (home-screen label, manifest `name` and `short_name`). Wordmark: concrete "m" + "ō", signal-orange "v" (see style guide B7) |
-| Launch | Animated splash: wordmark builds in (~0.8s), holds, fades; tap to skip; static under Reduce Motion |
+| App name | **mōv** — "move", with a macron for the long vowel (home-screen label, manifest `name` and `short_name`). Wordmark: concrete "m" + "ō" sink, signal-orange "v" rises (style guide B7b) |
+| Launch | Animated splash: wordmark builds in (~1.5s), holds, then cross-fades (~0.95s) into the home screen; tap to skip; Reduce Motion safe (style guide B7c) |
 | Platform | PWA, **iPhone only** (Safari / home-screen install) |
 | Users | 2–3 testers, fully private data, no sharing |
 | Units | Pounds and miles only |

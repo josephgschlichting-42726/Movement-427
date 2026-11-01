@@ -178,17 +178,33 @@ Series are also told apart by line style or markers and direct labels, not color
 3. **Daily check-in:** three stacked rows (SLEEP / MOOD / DRIVE), with vertical stacked labels echoing the mural's vertical "time theater" type.
 4. **"Last time" ghost values:** the previous session's numbers sit inside the inputs in Brushed Metal mono. One tap accepts them.
 
-### B7a. Wordmark — mōv
+### B7a. Signature numerals ("gray sinks, orange rises")
 
-**Approved version:** [`reference/wordmark-approved.jpg`](reference/wordmark-approved.jpg). Treat it as locked; changes need sign-off.
+**Approved:** [`reference/numerals-approved.jpg`](reference/numerals-approved.jpg). Locked; changes need sign-off.
+
+* Two-part numbers (dates, joy start→end, big metrics): **first part brushed concrete, last part Signal Orange.**
+* Cropped by the container's bottom edge (the floor). The **gray sinks 0.2em** below the floor; the **orange sinks 0.1em**, so it stands taller and dominates.
+* Digits sit side by side with proportional figures and a **−0.13em overlap**, so the orange always overlaps the gray, whatever the digit widths (narrow "1"s included).
+* First digit bleeds slightly off the left edge (−0.05em).
+* Implementation: `.today-num` in `src/screens/today.css` (Oswald baseline sits 0.048em above the line-box bottom at line-height 1).
+
+### B7b. Wordmark — mōv
+
+**Approved:** [`reference/wordmark-approved.jpg`](reference/wordmark-approved.jpg). Locked; changes need sign-off.
 
 * Spelled **mōv** (lowercase; the macron marks the long "o", pronounced "move").
-* Oswald 700, treated like the Today date numerals: **"m" and "ō" in brushed concrete**, **"v" in Signal Orange**.
-* **Floor and crop:** the letters stand on a floor line (the crop edge) and step down left→right. The "m" sits on the floor, the "ō" dips just below it, and the orange "v" overlaps the "ō" and sinks furthest, so it's cropped like the Today "1". The step-down carries the sense of forward motion.
-* **Spacing:** m–ō tight (nearly touching); the macron is a drawn concrete block sitting tight above the "o".
-* Component: `src/components/Wordmark.tsx` (`floor` prop draws the hairline). App icon: concrete "ō" and orange "v", both cropped by the bottom edge, with the "v" lower.
-* **Where it appears:** launch splash (large, animated) · app icon and favicon (ō + v only) · Settings footer with the version number · first-run welcome screen (Phase 1). **Not on working screens** (Today, Log, History), where each screen's own content is the one dominant element.
-* **Splash:** letters rise up through the floor in sequence (m → ō → v, ~90ms stagger, sliding slightly forward). The "v" overshoots a touch before settling, the macron wipes in, the tagline fades in, then the splash fades out at ~1.35s. Tap to skip; Reduce Motion shows it static. iOS launch images are plain Machine Black.
+* Same logic as the numerals, adjusted for lowercase: **"m" and "ō" in brushed concrete sink into a floor line** (m 0.05em, ō 0.085em, shallow enough that the ō's counter stays closed). The **orange "v" overlaps the ō and is lifted 0.1em off the floor**, clearing the macron, so it's the highest and brightest point.
+* m–ō tight (−0.05em); v overlap −0.17em; the macron is a drawn concrete block tight above the "o".
+* Component: `src/components/Wordmark.tsx` (`floor` prop draws the hairline). App icon and favicon: concrete ō sinking into the bottom edge, orange v lifted above it.
+* **Where it appears:** launch splash · app icon and favicon (ō + v) · Settings footer with the version · first-run welcome (Phase 1). **Not on working screens** (Today, Log, History).
+
+### B7c. Launch splash
+
+* **Intro ≈ 1.5s:** letters rise up through the floor in sequence (m → ō → v, 160ms stagger, 760–900ms each); the v springs to its lifted spot with a slight overshoot; the macron wipes in at 1.0s; the tagline (PLAN · LOG · UNDERSTAND) fades in at 1.2s.
+* **Hold** until 2.3s.
+* **Cross-fade ≈ 0.95s:** the splash fades out while the home screen fades in on the same ease-in-out curve, so mid-way both are half-visible. Never a hard cut.
+* Tap anywhere skips straight to the cross-fade. Reduce Motion: no letter movement, short hold, 0.4s cross-fade.
+* iOS launch images are plain Machine Black so there's no white flash before the splash.
 
 ### B8. Components (v1)
 

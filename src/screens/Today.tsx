@@ -12,14 +12,12 @@ export function Today() {
 
   return (
     <div className="screen today">
-      {/* Signature element: the date as overlapping, cropped numerals (after the "25" mural). */}
+      {/* Signature element: the date as overlapping, cropped numerals — gray sinks, orange rises. */}
       <header className="today-hero" aria-label={now.toDateString()}>
-        <span className="today-digit today-digit-a" aria-hidden>
-          {dd[0]}
-        </span>
-        <span className="today-digit today-digit-b" aria-hidden>
-          {dd[1]}
-        </span>
+        <div className="today-num" aria-hidden>
+          <span className="today-digit today-digit-a">{dd[0]}</span>
+          <span className="today-digit today-digit-b">{dd[1]}</span>
+        </div>
         <div className="today-tag" aria-hidden>
           <span>{WEEKDAYS[now.getDay()]}</span>
           <span>
