@@ -87,9 +87,20 @@ Plans bend to real life (sore foot, travel, a bad night's sleep). Skipping is al
 
 - **Skip a workout within a day:** on any workout in a session, tap **Skip**. An optional reason chip appears (Sore / Injury · Equipment · Time · Energy · Other + note). The workout is greyed out and the rest of the day continues. Example: skip tib raises because of a sore foot.
 - **Skip a whole day:** on the next-up card, tap **Skip day** (with the same optional reason). For day-number plans, "next in sequence" moves on to the following day. For weekday plans, it just marks that day as skipped.
-- **Undo:** a skip can be undone anytime from the session or from History.
 - **Not a plan edit:** skipping only affects that one occurrence. The plan is unchanged. A separate **Remove from plan** (in Settings → Planning) is for permanent changes.
 - **Skipped ≠ missing:** a skip is recorded deliberately, so History and adherence charts show *done*, *skipped (with reason)* and *missed (nothing logged)* differently. "Last time" ghost values ignore skipped entries and use the last time the workout was actually done.
+
+### 3.5 Nothing is ever locked: go back, undo, edit
+
+**Core principle: no action is final.** Skip, Done, Next, End session and Delete can all be reversed, at any time, with no time limit.
+
+- **Instant undo:** every state-changing tap (Skip, Done, Skip day, End session, Delete set) shows an **Undo** bar for about 6 seconds. Undo restores the exact previous state.
+- **Go back within a session:** **Next** only moves forward through the list; it never locks the previous workout. **Back** and a tappable workout list let the user jump to any workout in the session and change sets, values, status, or the skip reason.
+- **Un-skip and un-done:** a skipped workout or day can be switched to *pending* or *done*. A done workout can be reopened to *pending* or *skipped*. A skipped day can be un-skipped and logged.
+- **Reopen finished sessions:** a completed session (today or any past date) opens from Today or History in the same editor. Users can add, edit, or delete sets, add a forgotten workout, change joy ratings, times, or the date, and change which plan day it counts as.
+- **Next up recalculates:** next up is always derived from the current log, never stored. Un-skipping a day or editing a past session immediately corrects "next in sequence" and the charts.
+- **Deletes are soft:** a deleted set, workout entry, or session is hidden but recoverable (Undo bar, plus "Recently deleted" in Settings for 30 days). Sync respects this.
+- **Autosave applies to edits too:** editing a past session saves the same way as live logging. There is no separate "edit mode" to forget to save.
 
 ## 4. Tech stack
 
@@ -171,7 +182,7 @@ Each phase ends with a deploy you can install and test on your phone.
 |---|---|---|
 | **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("Movement") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "Movement". Opens in airplane mode |
 | **1. Library + Plan builder** | Types (seeded + custom), workouts per type, plan builder loop, both cadence modes, targets, superset/pre-exhaust blocks, first-run setup with plan gate | Recreate the 9-day example and a weekday-based plan from scratch, offline |
-| **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, skip workout / skip day (with reasons, undo), autosave | Log a leg day with tib raises skipped, skip a whole day, a 4x4, a rest day (walk + yoga) and farm work with no signal |
+| **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, skip workout / skip day (with reasons), undo bar, back-navigation, reopen and edit any past session, un-skip / un-done, soft delete, autosave | Log a leg day with tib raises skipped then un-skipped, skip a day then undo it, reopen yesterday's session and fix a weight, a 4x4, a rest day (walk + yoga) and farm work with no signal |
 | **3. Accounts + sync** | Supabase, RLS, email-code login, sync queue, upload local data, invite testers | Two phones, two accounts, no cross-visibility. Data survives reinstall |
 | **4. History + charts** | Session history, per-workout progress (top set, volume, duration), ratings vs. results (e.g. volume on high- vs. low-sleep days), joy start→end trends, adherence to plan (done / skipped by reason / missed) | Spot a pattern from real tester data |
 | **5. Interval timer** *(nice-to-have)* | Norwegian 4x4, EMOM, custom intervals. Timestamp-based, Wake Lock, audio cues, survives screen lock, auto-fills the entry | Run a 4x4 with the phone locked mid-interval. The time logged is correct |
