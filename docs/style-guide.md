@@ -180,11 +180,14 @@ Series are also told apart by line style or markers and direct labels, not color
 
 ### B7a. Wordmark — mōv
 
+**Approved version:** [`reference/wordmark-approved.jpg`](reference/wordmark-approved.jpg). Treat it as locked; changes need sign-off.
+
 * Spelled **mōv** (lowercase; the macron marks the long "o", pronounced "move").
 * Oswald 700, treated like the Today date numerals: **"m" and "ō" in brushed concrete**, **"v" in Signal Orange**.
 * **Floor and crop:** the letters stand on a floor line (the crop edge) and step down left→right. The "m" sits on the floor, the "ō" dips just below it, and the orange "v" overlaps the "ō" and sinks furthest, so it's cropped like the Today "1". The step-down carries the sense of forward motion.
 * **Spacing:** m–ō tight (nearly touching); the macron is a drawn concrete block sitting tight above the "o".
 * Component: `src/components/Wordmark.tsx` (`floor` prop draws the hairline). App icon: concrete "ō" and orange "v", both cropped by the bottom edge, with the "v" lower.
+* **Where it appears:** launch splash (large, animated) · app icon and favicon (ō + v only) · Settings footer with the version number · first-run welcome screen (Phase 1). **Not on working screens** (Today, Log, History), where each screen's own content is the one dominant element.
 * **Splash:** letters rise up through the floor in sequence (m → ō → v, ~90ms stagger, sliding slightly forward). The "v" overshoots a touch before settling, the macron wipes in, the tagline fades in, then the splash fades out at ~1.35s. Tap to skip; Reduce Motion shows it static. iOS launch images are plain Machine Black.
 
 ### B8. Components (v1)

@@ -165,7 +165,7 @@ Logging behaviors this supports:
 
 ## 6. Screens (v1)
 
-1. **First-run setup:** welcome → install to Home Screen → review types and starter workouts → build plan → land on Today.
+1. **First-run setup:** welcome (mōv wordmark) → install to Home Screen → review types and starter workouts → build plan → land on Today.
 2. **Today:** daily check-in strip · next-up card(s) · today's sessions · **Start session** (planned day or single workout).
 3. **Session logger:** joy start → segments and workouts (log format per workout) → end → joy end → mural-style summary.
 4. **History:** sessions by date, per-workout progress, ratings vs. results charts.
