@@ -35,6 +35,9 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,woff2,png,svg}'],
         navigateFallback: 'index.html',
+        // Never answer a file request (icons, manifest, images) with the app's HTML shell —
+        // iOS fetches the home-screen icon itself and needs the real image back.
+        navigateFallbackDenylist: [/\.[a-z0-9]+$/i, /\?v=/],
         cleanupOutdatedCaches: true,
       },
     }),
