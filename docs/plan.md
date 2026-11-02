@@ -165,7 +165,7 @@ Logging behaviors this supports:
 
 ## 6. Screens (v1)
 
-1. **First-run setup:** welcome (mōv wordmark) → install to Home Screen → review types and starter workouts → build plan → land on Today.
+1. **First-run setup:** welcome (moov wordmark) → install to Home Screen → review types and starter workouts → build plan → land on Today.
 2. **Today:** daily check-in strip · next-up card(s) · today's sessions · **Start session** (planned day or single workout).
 3. **Session logger:** joy start → segments and workouts (log format per workout) → end → joy end → mural-style summary.
 4. **History:** sessions by date, per-workout progress, ratings vs. results charts.
@@ -181,7 +181,7 @@ Each phase ends with a deploy you can install and test on your phone.
 
 | Phase | Scope | Exit test |
 |---|---|---|
-| **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("mōv") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "mōv". Opens in airplane mode |
+| **0. Foundation** | Scaffold, design tokens and fonts, app shell + bottom nav, PWA manifest ("moov") and icons, service worker, Dexie schema, deploy | Install to Home Screen as "moov". Opens in airplane mode |
 | **1. Library + Plan builder** | Types (seeded + custom), workouts per type, plan builder loop, both cadence modes, targets, superset/pre-exhaust blocks, first-run setup with plan gate | Recreate the 9-day example and a weekday-based plan from scratch, offline |
 | **2. Logging** | Today + next-up (incl. "ask each time"), daily check-in, sessions for every log format, dynamic sets, joy start/end, "last time" ghosts, off-plan logging, skip workout / skip day (with reasons), undo bar, back-navigation, reopen and edit any past session, un-skip / un-done, soft delete, autosave | Log a leg day with tib raises skipped then un-skipped, skip a day then undo it, reopen yesterday's session and fix a weight, a 4x4, a rest day (walk + yoga) and farm work with no signal |
 | **3. Accounts + sync** | Supabase, RLS, email-code login, sync queue, upload local data, invite testers | Two phones, two accounts, no cross-visibility. Data survives reinstall |
