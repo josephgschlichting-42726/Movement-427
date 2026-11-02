@@ -188,23 +188,30 @@ Series are also told apart by line style or markers and direct labels, not color
 * First digit bleeds slightly off the left edge (−0.05em).
 * Implementation: `.today-num` in `src/screens/today.css` (Oswald baseline sits 0.048em above the line-box bottom at line-height 1).
 
-### B7b. Wordmark — mōv
+### B7b. Wordmark — mo͞oV
 
-**Approved:** [`reference/wordmark-approved.jpg`](reference/wordmark-approved.jpg). Locked; changes need sign-off.
+**Locked:** [`reference/wordmark-approved.png`](reference/wordmark-approved.png) (splash: [`reference/splash-approved.png`](reference/splash-approved.png)). Changes need sign-off.
 
-* Spelled **mōv** (lowercase; the macron marks the long "o", pronounced "move").
-* Same logic as the numerals, adjusted for lowercase: **"m" and "ō" in brushed concrete sink into a floor line** (m 0.05em, ō 0.085em, shallow enough that the ō's counter stays closed). The **orange "v" overlaps the ō and is lifted 0.1em off the floor**, clearing the macron, so it's the highest and brightest point.
-* m–ō tight (−0.05em); v overlap −0.17em; the macron is a drawn concrete block tight above the "o".
-* Component: `src/components/Wordmark.tsx` (`floor` prop draws the hairline). App icon and favicon: concrete ō sinking into the bottom edge, orange v lifted above it.
-* **Where it appears:** launch splash · app icon and favicon (ō + v) · Settings footer with the version · first-run welcome (Phase 1). **Not on working screens** (Today, Log, History).
+* **Spelling:** the dictionary respelling of *move* — **/mo͞ov/** — drawn as **m · o · o · V**: two o's under **one bar** (the ͞ mark), with an orange **capital V**. (ō alone would read "mohv"; o͞o is the vowel in *move*.)
+* **Date-numeral rules for the whole word** (identical to B7a):
+  * every letter the **same size**
+  * gray (brushed concrete) letters **sink 0.2em** below the floor
+  * the orange **V sinks 0.1em** — capital height, like the digits, so it stands tallest
+  * the orange **overlaps the gray by 0.13em**
+* **Spacing:** the visible o–o gap equals the m–o gap (≈0.012em; set from Oswald's measured side bearings: oo group −0.05em, second o −0.046em).
+* **Bar:** a drawn concrete block spanning both o's, tight above them (0.085em thick).
+* Component: `src/components/Wordmark.tsx` (`floor` draws the hairline; `animate` for the splash).
+* **Icon & favicon:** "ooV" under the same rules, cut by the bottom edge (no left bleed at icon size, for legibility).
+* **Where it appears:** launch splash · app icon and favicon · Settings footer with the version · first-run welcome. **Not on working screens** (Today, Log, History).
 
 ### B7c. Launch splash
 
-* **Intro ≈ 1.5s:** letters rise up through the floor in sequence (m → ō → v, 160ms stagger, 760–900ms each); the v springs to its lifted spot with a slight overshoot; the macron wipes in at 1.0s; the tagline (PLAN · LOG · UNDERSTAND) fades in at 1.2s.
-* **Hold** until 2.3s.
-* **Cross-fade ≈ 0.95s:** the splash fades out while the home screen fades in on the same ease-in-out curve, so mid-way both are half-visible. Never a hard cut.
-* Tap anywhere skips straight to the cross-fade. Reduce Motion: no letter movement, short hold, 0.4s cross-fade.
-* iOS launch images are plain Machine Black so there's no white flash before the splash.
+* **Wordmark** centered, with a two-line dictionary entry beneath in IBM Plex Mono:
+  `move /mo͞ov/ · verb` / `to create forward progress`.
+* **Intro ≈ 1.5s:** letters rise up through the floor in sequence (m → o → o → V, 120ms stagger, 760–900ms each); the V springs to its spot with a slight overshoot; the bar wipes in at ~1.05s; the definition fades in at ~1.2s.
+* **Hold** until 2.3s, then a **~0.95s cross-fade** into the home screen (both half-visible mid-way). Never a hard cut.
+* Tap skips straight to the cross-fade. Reduce Motion: no letter movement, short hold, 0.4s cross-fade.
+* iOS launch images are plain Machine Black, so there's no white flash.
 
 ### B8. Components (v1)
 

@@ -33,7 +33,12 @@ export function Splash({ onLeave }: { onLeave: () => void }) {
   return (
     <div className={`splash ${phase === 'leave' ? 'splash-leave' : ''}`} onClick={() => setPhase('leave')} aria-hidden>
       <Wordmark animate className="splash-wm" />
-      <span className="splash-tag label">Plan · Log · Understand</span>
+      <span className="splash-tag">
+        <span>
+          move &nbsp;<b>/mo͞ov/</b>&nbsp; · verb
+        </span>
+        <span>to create forward progress</span>
+      </span>
     </div>
   );
 }

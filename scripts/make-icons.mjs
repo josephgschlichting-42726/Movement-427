@@ -10,7 +10,17 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const font = readFileSync(`${root}node_modules/@fontsource/oswald/files/oswald-latin-700-normal.woff2`).toString('base64');
 
-// Mark: a brushed-concrete "ō" sinking into the edge, a signal-orange "v" lifted above it — the mōv wordmark, after the "25" mural.
+// Mark: "ooV" under the locked wordmark rules (style guide B7b) — two concrete o's under one bar
+// sink 0.2em into the bottom edge; the orange capital V sinks 0.1em and overlaps by 0.13em.
+// Geometry from Oswald 700 metrics (o advance .483em, V advance .526em, x-height .594em, cap .828em).
+const F = 372; // font size in the 512 artboard (word ≈ 1.32F wide)
+const floor = 512;
+const ox1 = 0.012 * F; // no left bleed at icon size — legibility first
+const ox2 = ox1 + 0.483 * F - 0.046 * F;
+const vx = ox2 + 0.483 * F - 0.13 * F;
+const grayBase = floor + 0.2 * F;
+const orangeBase = floor + 0.1 * F;
+const barTop = floor - 0.517 * F;
 const svg = (size, pad) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
   <defs>
@@ -23,11 +33,12 @@ const svg = (size, pad) => `
   </defs>
   <rect width="512" height="512" fill="#101110"/>
   <g transform="translate(${pad} ${pad}) scale(${(512 - 2 * pad) / 512})">
-    <!-- ō sinks into the bottom edge (counter stays closed); v is lifted clear of the macron. -->
-    <text x="34" y="560" font-family="O" font-weight="700" font-size="560" fill="url(#c)">o</text>
-    <text x="34" y="560" font-family="O" font-weight="700" font-size="560" fill="#fff" filter="url(#n)">o</text>
-    <rect x="46" y="158" width="236" height="48" fill="url(#c)"/>
-    <text x="226" y="456" font-family="O" font-weight="700" font-size="560" fill="#F05A24">v</text>
+    <text x="${ox1}" y="${grayBase}" font-family="O" font-weight="700" font-size="${F}" fill="url(#c)">o</text>
+    <text x="${ox2}" y="${grayBase}" font-family="O" font-weight="700" font-size="${F}" fill="url(#c)">o</text>
+    <text x="${ox1}" y="${grayBase}" font-family="O" font-weight="700" font-size="${F}" fill="#fff" filter="url(#n)">o</text>
+    <text x="${ox2}" y="${grayBase}" font-family="O" font-weight="700" font-size="${F}" fill="#fff" filter="url(#n)">o</text>
+    <rect x="${ox1 + 0.04 * F}" y="${barTop}" width="${ox2 + 0.483 * F - 0.04 * F - (ox1 + 0.04 * F)}" height="${0.085 * F}" fill="url(#c)"/>
+    <text x="${vx}" y="${orangeBase}" font-family="O" font-weight="700" font-size="${F}" fill="#F05A24">V</text>
   </g>
 </svg>`;
 
@@ -47,7 +58,7 @@ export const STARTUP_DEVICES = [
   [750, 1334, 375, 667, 2],
   [1242, 2208, 414, 736, 3],
 ];
-const ICON_VERSION = 'v3';
+const ICON_VERSION = 'v4';
 mkdirSync(`${root}public/icons`, { recursive: true });
 const STARTUP = STARTUP_DEVICES.map(([w, h]) => [w, h]);
 mkdirSync(`${root}public/splash`, { recursive: true });
@@ -82,9 +93,9 @@ for (const [w, h] of STARTUP) {
 console.log('wrote', STARTUP.length, 'launch images');
 await browser.close();
 
-// Favicon: the same mark as flat shapes — concrete ō sinking into the edge, orange v lifted.
+// Favicon: the same mark as flat shapes — two concrete o's under one bar, orange V, cropped by the edge.
 writeFileSync(
   `${root}public/favicon.svg`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#101110"/><rect x="3" y="10" width="13" height="3" fill="#8d8b81"/><path d="M9.5 14.5c-4.2 0-6.5 2.6-6.5 7V32h13V21.5c0-4.4-2.3-7-6.5-7zm0 3.6c1.2 0 1.8.9 1.8 2.5V32H7.7V20.6c0-1.6.6-2.5 1.8-2.5z" fill="#77766D" fill-rule="evenodd"/><path d="M14 6h5l2.6 11.5L24.2 6h5l-4.7 17h-5.8z" fill="#F05A24"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#101110"/><path d="M5 17c-3 0-4.5 2-4.5 5V32h9V22c0-3-1.5-5-4.5-5zm0 3c.7 0 1 .5 1 1.5V32H4V21.5c0-1 .3-1.5 1-1.5zM13.5 17c-3 0-4.5 2-4.5 5V32h9V22c0-3-1.5-5-4.5-5zm0 3c.7 0 1 .5 1 1.5V32h-2V21.5c0-1 .3-1.5 1-1.5z" fill="#77766D" fill-rule="evenodd"/><rect x="1" y="13" width="16" height="2.5" fill="#8d8b81"/><path d="M15.5 6h5l2.5 14 2.5-14h5L26 30h-6z" fill="#F05A24"/></svg>`,
 );
 console.log('wrote public/favicon.svg');

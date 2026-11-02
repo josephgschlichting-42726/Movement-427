@@ -29,10 +29,10 @@ export default defineConfig({
         // iOS 26 "Open as Web App" takes its home-screen icon from here, not from
         // <link rel="apple-touch-icon">. Keep entries plain: explicit purpose, no query strings.
         icons: [
-          { src: 'icons/mov-v3-180.png', sizes: '180x180', type: 'image/png', purpose: 'any' },
-          { src: 'icons/mov-v3-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-          { src: 'icons/mov-v3-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: 'icons/mov-v3-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'icons/mov-v4-180.png', sizes: '180x180', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v4-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v4-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icons/mov-v4-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {
