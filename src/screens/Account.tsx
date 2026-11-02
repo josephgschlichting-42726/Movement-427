@@ -33,7 +33,7 @@ export function Account() {
       )}
       {syncConfigured() && (
         <p className="hint" style={{ marginTop: 'var(--space-6)' }}>
-          mōv saves to this phone first, so it works with no signal. When you’re signed in, changes back up automatically and
+          moov saves to this phone first, so it works with no signal. When you’re signed in, changes back up automatically and
           your data is private to your account.
         </p>
       )}
@@ -102,7 +102,7 @@ function SignIn() {
       await fn();
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      setErr(/signups not allowed|not found|Signups/i.test(msg) ? 'That email hasn’t been invited yet. Ask whoever set up mōv to invite you.' : msg);
+      setErr(/signups not allowed|not found|Signups/i.test(msg) ? 'That email hasn’t been invited yet. Ask whoever set up moov to invite you.' : msg);
     } finally {
       setBusy(false);
     }

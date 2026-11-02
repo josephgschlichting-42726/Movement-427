@@ -202,6 +202,7 @@ Series are also told apart by line style or markers and direct labels, not color
 * **Bar:** a drawn concrete block spanning both o's, tight above them (0.085em thick).
 * Component: `src/components/Wordmark.tsx` (`floor` draws the hairline; `animate` for the splash).
 * **Icon & favicon:** "ooV" under the same rules, cut by the bottom edge (no left bleed at icon size, for legibility).
+* **Name:** the app is called **moov** in text and under the home-screen icon; the drawn mark is mo͞oV.
 * **Where it appears:** launch splash · app icon and favicon · Settings footer with the version · first-run welcome. **Not on working screens** (Today, Log, History).
 
 ### B7c. Launch splash

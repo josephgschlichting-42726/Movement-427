@@ -1,4 +1,4 @@
-# mōv
+# moov
 
 Offline-first workout tracker PWA for iPhone.
 

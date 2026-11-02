@@ -10,7 +10,7 @@ export function isStandalone(): boolean {
   );
 }
 
-/** iOS has no install prompt; tell the user how to add mōv to the Home Screen. */
+/** iOS has no install prompt; tell the user how to add moov to the Home Screen. */
 export function InstallBanner() {
   const [hidden, setHidden] = useState(() => isStandalone());
   if (hidden) return null;
@@ -35,7 +35,7 @@ export function UpdateBanner() {
   if (!needRefresh) return null;
   return (
     <div className="banner" role="status">
-      <span>A new version of mōv is ready.</span>
+      <span>A new version of moov is ready.</span>
       <button className="btn btn-secondary" onClick={() => updateServiceWorker(true)}>
         Reload
       </button>

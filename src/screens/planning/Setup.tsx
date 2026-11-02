@@ -47,7 +47,7 @@ export function Setup() {
         </button>
         {!isStandalone() && (
           <p className="hint">
-            Tip: install mōv first — tap <IconShare /> then <b>Add to Home Screen</b>. Your data is safest in the installed app.
+            Tip: install moov first — tap <IconShare /> then <b>Add to Home Screen</b>. Your data is safest in the installed app.
           </p>
         )}
       </div>

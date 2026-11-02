@@ -1,10 +1,10 @@
-# mōv — Product Spec & Build Plan
+# moov — Product Spec & Build Plan
 
 Status: **Approved · Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ (v0.5.0, in testing) · next: Phase 3 (accounts + sync)**
 
 ## 1. Product summary
 
-**mōv** (pronounced "move") is a private, offline-capable workout tracker installed as a PWA on iPhone. Users:
+**moov** (pronounced "move") is a private, offline-capable workout tracker installed as a PWA on iPhone. Users:
 
 - build a **library** of workouts organized by **type**
 - assemble those workouts into a **plan** with a flexible cadence
@@ -16,7 +16,7 @@ Status: **Approved · Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ (v0.5.0, in test
 
 | Topic | Decision |
 |---|---|
-| App name | **mōv** — "move", with a macron for the long vowel (home-screen label, manifest `name` and `short_name`). Wordmark: **mo͞oV** — dictionary respelling of *move*, date-numeral rules (style guide B7b) |
+| App name | **moov** (home-screen label, manifest `name` and `short_name`) — sounds like "move". Wordmark: **mo͞oV** — dictionary respelling of *move*, date-numeral rules (style guide B7b) |
 | Launch | Animated splash: wordmark builds in (~1.5s), holds, then cross-fades (~0.95s) into the home screen; tap to skip; Reduce Motion safe (style guide B7c) |
 | Platform | PWA, **iPhone only** (Safari / home-screen install) |
 | Users | 2–3 testers, fully private data, no sharing |

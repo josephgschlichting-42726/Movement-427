@@ -16,8 +16,8 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['icons/*.png', 'favicon.svg'],
       manifest: {
-        name: 'mōv',
-        short_name: 'mōv',
+        name: 'moov',
+        short_name: 'moov',
         description: 'Plan, log, and understand how you move.',
         lang: 'en-US',
         display: 'standalone',
